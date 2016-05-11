@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Clienti">
+  <DataContextMoniker Name="/ClientiDataContext" />
+  <nestedChildShapes>
+    <classShape Id="3e0e9a0e-5861-41ee-899b-e9c6d43bb0f0" absoluteBounds="6.25, 1, 2, 2.9247054036458331">
+      <DataClassMoniker Name="/ClientiDataContext/TableClienti" />
+      <nestedChildShapes>
+        <elementListCompartment Id="458ca6a6-3124-446a-a565-455b7433c517" absoluteBounds="6.265, 1.46, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c46f5933-779d-41c0-9b38-6d828f5424bd" absoluteBounds="0.75, 1.625, 2, 1.3862939453124998">
+      <DataClassMoniker Name="/ClientiDataContext/TableNominativi" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fd0a748d-46f4-42c4-8fc7-ea75153be208" absoluteBounds="0.765, 2.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e8028ca5-253c-4aa8-8f41-ca952495918e" absoluteBounds="3.5, 1.5, 2, 1.9631982421875">
+      <DataClassMoniker Name="/ClientiDataContext/TableInserimenti" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7e9ff959-c056-4c59-a7b2-a9373690f569" absoluteBounds="3.515, 1.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.5 : 2.48159912109375); (6.25 : 2.48159912109375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ClientiDataContext/TableInserimenti/TableInserimenti_TableClienti" />
+      <nodes>
+        <classShapeMoniker Id="e8028ca5-253c-4aa8-8f41-ca952495918e" />
+        <classShapeMoniker Id="3e0e9a0e-5861-41ee-899b-e9c6d43bb0f0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 2.31814697265625); (3.5 : 2.31814697265625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ClientiDataContext/TableNominativi/TableNominativi_TableInserimenti" />
+      <nodes>
+        <classShapeMoniker Id="c46f5933-779d-41c0-9b38-6d828f5424bd" />
+        <classShapeMoniker Id="e8028ca5-253c-4aa8-8f41-ca952495918e" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

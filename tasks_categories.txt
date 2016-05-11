@@ -1,0 +1,6 @@
+Categorie di task in Visual Studio
+
+MOD: Un comportamento o un codice di una sezione da modificare per migliorarlo
+BUG: Un errore semantico o crash del programma
+FTR: Una cosa nuova da aggiungere al programma
+CHK: Qualcosa da controllare per verificare come si comporta

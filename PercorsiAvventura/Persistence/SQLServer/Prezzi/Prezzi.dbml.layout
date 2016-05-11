@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Prezzi">
+  <DataContextMoniker Name="/PrezziDataContext" />
+  <nestedChildShapes>
+    <classShape Id="45d4d8ba-8987-4952-ba56-ad1a9314b836" absoluteBounds="0.5, 2.375, 2, 1.7708968098958327">
+      <DataClassMoniker Name="/PrezziDataContext/ListinoPrezzi" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0114f134-7a69-4663-8601-5445b037b223" absoluteBounds="0.51500000000000012, 2.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ed333a7f-eb2c-4332-95a3-e3f8918e2759" absoluteBounds="6.625, 2.5, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/PrezziDataContext/ClientiPerBiglietto" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7e8258c8-047e-4ba3-b960-6c5eb6a93574" absoluteBounds="6.6400000000000006, 2.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b4401cd6-d0ae-48ed-9724-a9b8a080a498" absoluteBounds="3.875, 3.625, 2, 1.5785953776041675">
+      <DataClassMoniker Name="/PrezziDataContext/TipiCliente" />
+      <nestedChildShapes>
+        <elementListCompartment Id="43e1f22e-a33d-4fd1-b979-a7317a313729" absoluteBounds="3.8899999999999997, 4.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f36a899f-f060-4c2f-9e7b-b025c8f83a42" absoluteBounds="3.25, 0.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/PrezziDataContext/TipiBiglietto" />
+      <nestedChildShapes>
+        <elementListCompartment Id="93e5ce07-2db0-4116-be20-b91b374c8515" absoluteBounds="3.2649999999999997, 0.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.875 : 3.88544840494792); (2.5 : 3.88544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PrezziDataContext/TipiCliente/TipiCliente_ListinoPrezzi" />
+      <nodes>
+        <classShapeMoniker Id="b4401cd6-d0ae-48ed-9724-a9b8a080a498" />
+        <classShapeMoniker Id="45d4d8ba-8987-4952-ba56-ad1a9314b836" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.25 : 1.28929768880208); (1.5 : 1.28929768880208); (1.5 : 2.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PrezziDataContext/TipiBiglietto/TipiBiglietto_ListinoPrezzi" />
+      <nodes>
+        <classShapeMoniker Id="f36a899f-f060-4c2f-9e7b-b025c8f83a42" />
+        <classShapeMoniker Id="45d4d8ba-8987-4952-ba56-ad1a9314b836" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.875 : 4.4487944453125); (7.625 : 4.4487944453125); (7.625 : 3.69399251302083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PrezziDataContext/TipiCliente/TipiCliente_ClientiPerBiglietto" />
+      <nodes>
+        <classShapeMoniker Id="b4401cd6-d0ae-48ed-9724-a9b8a080a498" />
+        <classShapeMoniker Id="ed333a7f-eb2c-4332-95a3-e3f8918e2759" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.25 : 1.28929768880208); (7.625 : 1.28929768880208); (7.625 : 2.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PrezziDataContext/TipiBiglietto/TipiBiglietto_ClientiPerBiglietto" />
+      <nodes>
+        <classShapeMoniker Id="f36a899f-f060-4c2f-9e7b-b025c8f83a42" />
+        <classShapeMoniker Id="ed333a7f-eb2c-4332-95a3-e3f8918e2759" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

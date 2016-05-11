@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="indianapark" EntityNamespace="IndianaPark.PercorsiAvventura.Persistence.SqlServer" ContextNamespace="IndianaPark.PercorsiAvventura.Persistence.SqlServer" Class="ClientiDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="model_clienti" Member="TableClienti">
+    <Type Name="TableClienti">
+      <Column Name="id" Member="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cod_inserimento" Member="CodInserimento" AccessModifier="Private" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="codice" Member="Codice" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="tipo_cliente" Member="TipoCliente" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ora_ingresso" Member="OraIngresso" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ora_uscita" Member="OraUscita" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="prezzo_base" Member="PrezzoBase" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="sconto" Member="Sconto" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="sconto_comitiva" Member="ScontoComitiva" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="uscito" Member="Uscito" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="prezzo_finale" Member="PrezzoFinale" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Association Name="TableInserimenti_TableClienti" Member="TableInserimenti" ThisKey="CodInserimento" OtherKey="Id" Type="TableInserimenti" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="model_nominativi" Member="TableNominativi">
+    <Type Name="TableNominativi">
+      <Column Name="id" Member="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="codice" Member="Codice" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nome" Member="Nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="TableNominativi_TableInserimenti" Member="TableInserimenti" ThisKey="Id" OtherKey="CodNominativo" Type="TableInserimenti" />
+    </Type>
+  </Table>
+  <Table Name="model_inserimenti" Member="TableInserimenti">
+    <Type Name="TableInserimenti">
+      <Column Name="id" Member="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cod_nominativo" Member="CodNominativo" AccessModifier="Private" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="data_inserimento" Member="DataInserimento" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="sconto_comitiva" Member="ScontoComitiva" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="prezzo_totale" Member="PrezzoTotale" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="tipo_biglietto" Member="TipoBiglietto" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="TableInserimenti_TableClienti" Member="TableClienti" ThisKey="Id" OtherKey="CodInserimento" Type="TableClienti" />
+      <Association Name="TableNominativi_TableInserimenti" Member="TableNominativi" ThisKey="CodNominativo" OtherKey="Id" Type="TableNominativi" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

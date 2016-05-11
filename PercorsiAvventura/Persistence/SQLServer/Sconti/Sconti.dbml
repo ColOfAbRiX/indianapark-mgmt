@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="indianapark" EntityNamespace="IndianaPark.PercorsiAvventura.Persistence.SqlServer" ContextNamespace="IndianaPark.PercorsiAvventura.Persistence.SqlServer" Class="ScontiDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="model_sconti" Member="TableSconti">
+    <Type Name="TableSconti">
+      <Column Name="model_key" Member="Key" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="sconto_comitiva" Member="IsComitiva" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="sconto_personale" Member="IsPersonale" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="tipo_sconto" Member="TipoSconto" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nome" Member="Nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="valore" Member="Valore" Type="System.Double" DbType="Real NOT NULL" CanBeNull="false" />
+      <Column Name="ctor_parameters" Member="CtorParameters" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="custom" Member="IsCustom" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="TableTipiSconto_TableSconti" Member="TableTipiSconto" ThisKey="TipoSconto" OtherKey="Tipo" Type="TableTipiSconto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="model_tipi_sconto" Member="TableTipiSconto">
+    <Type Name="TableTipiSconto">
+      <Column Name="tipo" Member="Tipo" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="framework_type" Member="FrameworkType" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="TableTipiSconto_TableSconti" Member="TableSconti" ThisKey="Tipo" OtherKey="TipoSconto" Type="TableSconti" />
+    </Type>
+  </Table>
+</Database>

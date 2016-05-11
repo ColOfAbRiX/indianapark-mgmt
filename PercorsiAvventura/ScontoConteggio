@@ -1,0 +1,189 @@
+using System;
+using System.Collections.Generic;
+
+namespace IndianaPark.PercorsiAvventura.Model
+{
+    /// <summary>
+    /// Implementa il codice per gli sconti a N-Persone: ogni N persone la N+1 entra
+    /// gratis.
+    /// </summary>
+    public class ScontoConteggio : IScontoComitiva
+    {
+        #region Fields
+
+        #region Internals
+
+        /// <summary>
+        /// Lo sconto fisso, in valuta, rappresentato da questa istanza. Sempre positivo
+        /// </summary>
+        private readonly decimal m_sconto;
+        /// <summary>
+        /// Numero di persone dopo il quale si applica uno sconto comitiva
+        /// </summary>
+        private readonly uint m_conteggioPersone;
+
+        #endregion
+
+        #region Publics
+
+        /// <summary>
+        /// Lo sconto fisso, in valuta, rappresentato da questa istanza.
+        /// </summary>
+        public double Sconto
+        {
+            get { return (double)this.m_sconto; }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        #region Constructor
+
+        /// <summary>
+        /// Costruttore
+        /// </summary>
+        /// <param name="sconto">Valore dello sconto fisso, non negativo</param>
+        /// <param name="conteggioPersone">Numero di persone per il conteggio dello sconto</param>
+        public ScontoConteggio( decimal sconto, uint conteggioPersone )
+        {
+            if( sconto < 0 )
+            {
+                throw new ArgumentOutOfRangeException( "sconto" );
+            }
+            if( conteggioPersone < 0 )
+            {
+                throw new ArgumentOutOfRangeException( "conteggioPersone" );
+            }
+
+            this.m_conteggioPersone = conteggioPersone;
+            this.m_sconto = sconto;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// La funzione determina il piano di sconti da applicare ad una lista clienti,
+        /// cioè deve: determinare se applicare lo sconto comitiva, quali sconti
+        /// eventualmente gia presenti non conteggiare e, se richiesto, applicare gli
+        /// sconti ai clienti che ne necessitano.
+        /// Restituisce un array con indici associati alla lista clienti in ingresso; in
+        /// ogni indice è presente o meno un riferimento allo sconto da applicare.
+        /// </summary>
+        /// <param name="listaClienti">La lista dei clienti utilizzata per determinare il
+        /// piano di sconti.</param>
+        public List<Cliente> PianoSconti( List<Cliente> listaClienti )
+        {
+            listaClienti.Sort( this.compareClienteSconto );
+            int senzaSconto=0;
+
+            // la condizione serve per considerare tutti i clienti che non hanno uno sconto (in cui il prezzo
+            // base è (maggiore o) uguale al prezzo scontato, la seconda parte della condizione serve a non
+            // superare il numero massimo degli elementi della lista.
+            while( (listaClienti[senzaSconto].PrezzoBase <= listaClienti[senzaSconto].GetPrezzoPersonale()) && (senzaSconto < (listaClienti.Count - 1)) )
+            {
+                senzaSconto++;
+            }
+            // ora i è il numero della prima persona con lo sconto personale
+            // calcolo del primo prezzo scontato (prezzo totale del gruppo)
+            decimal prezzoMinimoTotale = calcolaPrezzoGruppo( senzaSconto, listaClienti );
+            decimal prezzoProva = 0;
+            // calcolo il minimo prezzo effettivo per questo gruppo
+
+            // prima di tutto calcolo il numero minimo di persone per ottenere uno sconto aggiuntivo
+            // mi calcolo il numero di sconti che ci sono nel gruppo, ipotizzo un nuovo sconto e da questo
+            // deduco il numero di persone necessarie
+            int n=(((senzaSconto - 1) % (int)m_conteggioPersone) + 1) * (int)m_conteggioPersone;
+            while( n < listaClienti.Count - 1 )
+            {
+                prezzoProva = calcolaPrezzoGruppo( n, listaClienti );
+                if( prezzoProva < prezzoMinimoTotale )
+                {
+                    senzaSconto = n;
+                    prezzoMinimoTotale = prezzoProva;
+                }
+                n += (int)m_conteggioPersone;
+            }
+            n -= (int)m_conteggioPersone;
+            List<Cliente> risultato= new List<Cliente>();
+
+            //creo la nuova lista di sconti utilizzando gli sconti comitiva,
+            //azzerando gli sconti dei clienti che partecipano al totale dello sconto comitiva
+            //infine mantenendo gli sconti per i clienti che non partecipano a tale sconto
+            //nel frattempo se la variabile apply è impostata a true modifico anche i valori dentro la lista clienti
+
+            for( int i=0; i < listaClienti.Count - 1; i++ )
+            {
+                risultato.Add( (Cliente)listaClienti[i].Clone() );
+                if( i < (senzaSconto % m_conteggioPersone) )
+                {
+                    risultato[i].Sconto = null;
+                    risultato[i].ScontoComitiva = this;
+                }
+                else if( (i > (senzaSconto % m_conteggioPersone)) && (i < senzaSconto) )
+                {
+                    risultato[i].Sconto = null;
+                    risultato[i].ScontoComitiva = null;
+                }
+            }
+            return risultato;
+        }
+
+
+        private int numeroSconti( int senzaSconto, List<Cliente> listaclienti )
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// calcola il prezzo totale di un gruppo considerando i primi clienti senza uno sconto personale
+        /// </summary>
+        /// <param name="senzaSconto">il numero di clienti da considerare senza sconto</param>
+        /// <param name="listaClienti">l'elenco dei clienti</param>
+        /// <returns></returns>
+        private decimal calcolaPrezzoGruppo( int senzaSconto, List<Cliente> listaClienti )
+        {
+            decimal prezzoTotale = 0;
+            for( int l = 0; l < listaClienti.Count; l++ )
+            {
+                if( l > senzaSconto )
+                {
+                    prezzoTotale += listaClienti[l].PrezzoBase;
+                }
+                else
+                {
+                    prezzoTotale += listaClienti[l].GetPrezzoPersonale();
+                }
+            }
+            //applica lo sconto calcolando il numero dei clienti senza uno sconto diviso il numero di clienti
+            //necessari per ottenere uno sconto, lo moltiplica per il valore di uno sconto singolo e lo sottrae dal prezzo totale
+            prezzoTotale -= (((senzaSconto - 1) % (int)m_conteggioPersone) * m_sconto);
+            return prezzoTotale;
+        }
+
+        private int compareClienteSconto( Cliente x, Cliente y )
+        {
+            return Math.Sign( (double)((x.PrezzoBase - x.GetPrezzoPersonale()) - (y.PrezzoBase - y.GetPrezzoPersonale())) );
+        }
+        /// <summary>
+        /// Il metodo applica lo sconto al prezzo e ne ritorna il risultato. La funzione
+        /// non fa distinzione se è necessario o no applicare lo sconto: il risultato è
+        /// sempre il prezzo scontato.
+        /// </summary>
+        /// <param name="prezzoBase">Il prezzo non scontato a cui applicare lo
+        /// sconto</param>
+        public decimal ScontaPrezzo( decimal prezzoBase )
+        {
+            if( prezzoBase < 0 )
+            {
+                throw new ArgumentOutOfRangeException( "The base price must be non-negative" );
+            }
+
+            return Math.Max( 0, prezzoBase - this.m_sconto );
+        }
+
+        #endregion
+    }
+}

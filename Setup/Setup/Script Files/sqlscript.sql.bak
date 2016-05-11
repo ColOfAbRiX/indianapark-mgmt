@@ -1,0 +1,1962 @@
+/****** Object:  Table [dbo].[model_biglietti_clienti]    Script Date: 23/03/2011 17:50:13 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_biglietti_clienti]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_biglietti_clienti] (
+	[tipo_biglietto] [varchar] (50) NOT NULL ,
+	[tipo_cliente] [varchar] (50) NOT NULL ,
+	CONSTRAINT [PK_model_biglietti_clienti] PRIMARY KEY  CLUSTERED 
+	(
+		[tipo_biglietto],
+		[tipo_cliente]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('base','adulti')
+GO
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('base','baby')
+GO
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('base','bambini')
+GO
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('base','ragazzi')
+GO
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('gruppi','adulti')
+GO
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('gruppi','baby')
+GO
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('gruppi','bambini')
+GO
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('gruppi','ragazzi')
+GO
+
+INSERT INTO [dbo].[model_biglietti_clienti] ([tipo_biglietto],[tipo_cliente])
+	VALUES ('notturna','adulti')
+GO
+
+/****** Object:  Table [dbo].[model_briefings]    Script Date: 23/03/2011 17:50:15 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_briefings]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_briefings] (
+	[model_key] [varchar] (50) NOT NULL ,
+	[tipo_briefing] [varchar] (50) NOT NULL ,
+	[nome] [varchar] (50) NOT NULL ,
+	[durata] [timestamp] NOT NULL ,
+	[posti_totali] [bigint] NOT NULL ,
+	[ask_user] [bit] NOT NULL ,
+	[walk_time] [bigint] NOT NULL ,
+	[ctor_parameters] [text] NOT NULL ,
+	CONSTRAINT [PK_model_briefings] PRIMARY KEY  CLUSTERED 
+	(
+		[model_key]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[model_briefings] ([model_key],[tipo_briefing],[nome],[posti_totali],[ask_user],[walk_time],[ctor_parameters])
+	VALUES ('adulti','TipoBriefingGenerico','Briefing Adulti',20,1,40314,'')
+GO
+
+INSERT INTO [dbo].[model_briefings] ([model_key],[tipo_briefing],[nome],[posti_totali],[ask_user],[walk_time],[ctor_parameters])
+	VALUES ('baby','TipoBriefingImmediato','Briefing Baby',20,0,40314,'')
+GO
+
+INSERT INTO [dbo].[model_briefings] ([model_key],[tipo_briefing],[nome],[posti_totali],[ask_user],[walk_time],[ctor_parameters])
+	VALUES ('bambini','TipoBriefingGenerico','Briefing Bambini',20,1,40314,'')
+GO
+
+INSERT INTO [dbo].[model_briefings] ([model_key],[tipo_briefing],[nome],[posti_totali],[ask_user],[walk_time],[ctor_parameters])
+	VALUES ('notturna','TipoBriefingNotturna','Briefing Notturna',40,0,40314,'')
+GO
+
+/****** Object:  Table [dbo].[model_clienti]    Script Date: 23/03/2011 17:50:16 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_clienti]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_clienti] (
+	[id] [int] IDENTITY (1, 1) NOT NULL ,
+	[cod_inserimento] [int] NOT NULL ,
+	[codice] [int] NOT NULL ,
+	[tipo_cliente] [varchar] (50) NOT NULL ,
+	[ora_ingresso] [datetime] NULL ,
+	[ora_uscita] [datetime] NULL ,
+	[prezzo_base] [varchar] (50) NOT NULL ,
+	[sconto] [varchar] (50) NULL ,
+	[sconto_comitiva] [varchar] (50) NULL ,
+	[uscito] [bit] NOT NULL ,
+	[prezzo_finale] [decimal](18, 2) NULL ,
+	CONSTRAINT [PK_model_clienti_1] PRIMARY KEY  CLUSTERED 
+	(
+		[id]
+	)  ON [PRIMARY] ,
+	CONSTRAINT [CK_model_clienti_orario] CHECK ([ora_uscita]>[ora_ingresso]),
+	CONSTRAINT [CK_model_clienti_scontocomitiva] CHECK ([sconto_comitiva] IS NOT NULL AND [dbo].[CheckIsScontoComitiva]([sconto_comitiva])=(1) OR [sconto_comitiva] IS NULL),
+	CONSTRAINT [CK_model_clienti_total_price] CHECK ([dbo].[CheckClienteTotalPrice]([cod_inserimento])=(1))
+) ON [PRIMARY]
+ CREATE  INDEX [IX_model_clienti_1] ON [dbo].[model_clienti]([ora_ingresso], [ora_uscita]) ON [PRIMARY]
+END
+
+GO
+
+
+exec sp_addextendedproperty N'MS_Description', N'Controlla che l''orario di uscita superi sempre quello di ingresso', N'user', N'dbo', N'table', N'model_clienti', N'constraint', N'CK_model_clienti_orario'
+GO
+exec sp_addextendedproperty N'MS_Description', N'Controlla che la somma dei prezzi dei clienti combaci con il totale dell''inserimento', N'user', N'dbo', N'table', N'model_clienti', N'constraint', N'CK_model_clienti_total_price'
+
+
+GO
+
+
+SET IDENTITY_INSERT [dbo].[model_clienti] ON
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (46,22,38,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','','',0,20.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (47,22,309,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','','',0,20.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (48,22,647,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','','',0,20.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (49,22,497,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','','',0,20.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (50,22,175,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','','',0,20.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (53,24,788,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','','',0,20.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (54,24,671,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','omaggio','',0,.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (55,24,359,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','omaggio','',0,.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (56,24,232,'adulti','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_adulti','omaggio','',0,.00)
+GO
+
+INSERT INTO [dbo].[model_clienti] ([id],[cod_inserimento],[codice],[tipo_cliente],[ora_ingresso],[ora_uscita],[prezzo_base],[sconto],[sconto_comitiva],[uscito],[prezzo_finale])
+	VALUES (57,24,423,'ragazzi','2010-11-17 17:20:00.000','2010-11-17 20:20:00.000','base_ragazzi','fisso_2','',0,12.00)
+GO
+
+SET IDENTITY_INSERT [dbo].[model_clienti] OFF
+
+/****** Object:  Table [dbo].[model_inserimenti]    Script Date: 23/03/2011 17:50:16 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_inserimenti]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_inserimenti] (
+	[id] [int] IDENTITY (1, 1) NOT NULL ,
+	[cod_nominativo] [int] NOT NULL ,
+	[data_inserimento] [datetime] NOT NULL ,
+	[sconto_comitiva] [varchar] (50) NULL ,
+	[tipo_biglietto] [varchar] (50) NULL ,
+	[prezzo_totale] [decimal](18, 2) NULL ,
+	CONSTRAINT [PK_model_inserimenti] PRIMARY KEY  CLUSTERED 
+	(
+		[id]
+	)  ON [PRIMARY] ,
+	CONSTRAINT [CK_model_inserimenti_scontocomitiva] CHECK ([sconto_comitiva] IS NOT NULL AND [dbo].[CheckIsScontoComitiva]([sconto_comitiva])=(1) OR [sconto_comitiva] IS NULL)
+) ON [PRIMARY]
+END
+
+GO
+
+
+SET IDENTITY_INSERT [dbo].[model_inserimenti] ON
+INSERT INTO [dbo].[model_inserimenti] ([id],[cod_nominativo],[data_inserimento],[sconto_comitiva],[tipo_biglietto],[prezzo_totale])
+	VALUES (22,15,'2010-11-17 17:04:12.173','comitiva','base',100.00)
+GO
+
+INSERT INTO [dbo].[model_inserimenti] ([id],[cod_nominativo],[data_inserimento],[sconto_comitiva],[tipo_biglietto],[prezzo_totale])
+	VALUES (24,15,'2010-11-17 17:09:34.360','comitiva','base',32.00)
+GO
+
+INSERT INTO [dbo].[model_inserimenti] ([id],[cod_nominativo],[data_inserimento],[sconto_comitiva],[tipo_biglietto],[prezzo_totale])
+	VALUES (25,17,'2010-11-25 13:28:39.063','comitiva','base',34.00)
+GO
+
+SET IDENTITY_INSERT [dbo].[model_inserimenti] OFF
+
+/****** Object:  Table [dbo].[model_listino_prezzi]    Script Date: 23/03/2011 17:50:17 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_listino_prezzi]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_listino_prezzi] (
+	[model_key] [varchar] (50) NOT NULL ,
+	[nome] [varchar] (50) NOT NULL ,
+	[prezzo] [decimal](18, 2) NOT NULL ,
+	[tipo_biglietto] [varchar] (50) NOT NULL ,
+	[tipo_cliente] [varchar] (50) NOT NULL ,
+	CONSTRAINT [PK_model_listino_prezzi] PRIMARY KEY  CLUSTERED 
+	(
+		[model_key]
+	)  ON [PRIMARY] ,
+	CONSTRAINT [CK_model_listino_prezzi] CHECK ([dbo].[CheckClienteOfBiglietto]([tipo_cliente],[tipo_biglietto])=(1)),
+	CONSTRAINT [CK_model_listino_prezzi_positive] CHECK ([prezzo]>=(0))
+) ON [PRIMARY]
+ CREATE  UNIQUE  INDEX [IX_model_listino_prezzi] ON [dbo].[model_listino_prezzi]([tipo_biglietto], [tipo_cliente]) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('base_adulti','Base Adulti',20.00,'base','adulti')
+GO
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('base_baby','Base Baby',4.00,'base','baby')
+GO
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('base_bambini','Base Bambini',8.00,'base','bambini')
+GO
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('base_ragazzi','Base Ragazzi',14.00,'base','ragazzi')
+GO
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('gruppo_adulti','Gruppo Adulti',20.00,'gruppi','adulti')
+GO
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('gruppo_baby','Gruppo Baby',4.00,'gruppi','baby')
+GO
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('gruppo_bambini','Gruppo Bambini',8.00,'gruppi','bambini')
+GO
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('gruppo_ragazzi','Gruppo Ragazzi',14.00,'gruppi','ragazzi')
+GO
+
+INSERT INTO [dbo].[model_listino_prezzi] ([model_key],[nome],[prezzo],[tipo_biglietto],[tipo_cliente])
+	VALUES ('notturna_adulti','Notturna Adulti',25.00,'notturna','adulti')
+GO
+
+/****** Object:  Table [dbo].[model_nominativi]    Script Date: 23/03/2011 17:50:17 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_nominativi]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_nominativi] (
+	[id] [int] IDENTITY (1, 1) NOT NULL ,
+	[codice] [int] NOT NULL ,
+	[nome] [varchar] (50) NOT NULL ,
+	CONSTRAINT [PK_model_nominativi] PRIMARY KEY  CLUSTERED 
+	(
+		[id]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+END
+
+GO
+
+
+SET IDENTITY_INSERT [dbo].[model_nominativi] ON
+INSERT INTO [dbo].[model_nominativi] ([id],[codice],[nome])
+	VALUES (17,144,'Fabrizio')
+GO
+
+INSERT INTO [dbo].[model_nominativi] ([id],[codice],[nome])
+	VALUES (15,670,'Fabrizio')
+GO
+
+SET IDENTITY_INSERT [dbo].[model_nominativi] OFF
+
+/****** Object:  Table [dbo].[model_sconti]    Script Date: 23/03/2011 17:50:17 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_sconti]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_sconti] (
+	[model_key] [varchar] (50) NOT NULL ,
+	[sconto_comitiva] [bit] NOT NULL ,
+	[sconto_personale] [bit] NOT NULL ,
+	[tipo_sconto] [varchar] (50) NOT NULL ,
+	[nome] [varchar] (50) NOT NULL ,
+	[valore] [real] NOT NULL ,
+	[ctor_parameters] [text] NOT NULL ,
+	[custom] [bit] NOT NULL ,
+	CONSTRAINT [PK_model_sconti] PRIMARY KEY  CLUSTERED 
+	(
+		[model_key]
+	)  ON [PRIMARY] ,
+	CONSTRAINT [CK_model_sconti_partitioning] CHECK ([sconto_comitiva]=(0) AND [sconto_personale]=(1) OR [sconto_comitiva]=(1) AND [sconto_personale]=(0) OR [sconto_comitiva]=(1) AND [sconto_personale]=(1)),
+	CONSTRAINT [CK_model_sconti_positive] CHECK ([valore]>=(0))
+) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('comitiva',1,0,'ScontoConteggio','Sconto Comitiva',0.0,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Sconto Comitiva</anyType>
+  <anyType xsi:type="xsd:double">0</anyType>
+  <anyType xsi:type="xsd:unsignedInt">10</anyType>
+</ArrayOfAnyType>',0)
+GO
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('comitiva_organizzata',1,0,'ScontoConteggio','Comitiva Organizzata',0.0,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Comitiva Organizzata</anyType>
+  <anyType xsi:type="xsd:double">0</anyType>
+  <anyType xsi:type="xsd:unsignedInt">20</anyType>
+</ArrayOfAnyType>',0)
+GO
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('fisso_2',0,1,'ScontoFisso','Sconto di 2€',2.0,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Sconto di 2€</anyType>
+  <anyType xsi:type="xsd:double">2</anyType>
+</ArrayOfAnyType>',0)
+GO
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('omaggio',0,1,'ScontoOmaggio','Biglietto Omaggio',0.0,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Biglietto Omaggio</anyType>
+</ArrayOfAnyType>',0)
+GO
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('percento_20',0,1,'ScontoPercentuale','Sconto del 20%',0.2,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Sconto del 20%</anyType>
+  <anyType xsi:type="xsd:double">0.2</anyType>
+</ArrayOfAnyType>',0)
+GO
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('scontofisso_2',0,1,'ScontoFisso','Sconto di 2€',2.0,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Sconto di 2€</anyType>
+  <anyType xsi:type="xsd:double">2</anyType>
+</ArrayOfAnyType>',1)
+GO
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('scontofisso_4',0,1,'ScontoFisso','Sconto -€ 4,00',4.0,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Sconto -€ 4,00</anyType>
+  <anyType xsi:type="xsd:double">4</anyType>
+</ArrayOfAnyType>',1)
+GO
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('scontoomaggio_0',0,1,'ScontoOmaggio','Biglietto Omaggio',0.0,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Biglietto Omaggio</anyType>
+</ArrayOfAnyType>',1)
+GO
+
+INSERT INTO [dbo].[model_sconti] ([model_key],[sconto_comitiva],[sconto_personale],[tipo_sconto],[nome],[valore],[ctor_parameters],[custom])
+	VALUES ('scontopercentuale_0,2',0,1,'ScontoPercentuale','Sconto del 20%',0.2,'<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfAnyType xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <anyType xsi:type="xsd:string">Sconto del 20%</anyType>
+  <anyType xsi:type="xsd:double">0.2</anyType>
+</ArrayOfAnyType>',1)
+GO
+
+/****** Object:  Table [dbo].[model_tipi_biglietto]    Script Date: 23/03/2011 17:50:17 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_tipi_biglietto]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_tipi_biglietto] (
+	[model_key] [varchar] (50) NOT NULL ,
+	[nome] [varchar] (50) NOT NULL ,
+	[abbonamento] [bit] NOT NULL ,
+	[sconto_comitiva] [varchar] (50) NULL ,
+	CONSTRAINT [PK_model_tipi_biglietto] PRIMARY KEY  CLUSTERED 
+	(
+		[model_key]
+	)  ON [PRIMARY] ,
+	CONSTRAINT [CK_model_tipi_biglietto_scontocomitiva] CHECK ([sconto_comitiva] IS NOT NULL AND [dbo].[CheckIsScontoComitiva]([sconto_comitiva])=(1) OR [sconto_comitiva] IS NULL)
+) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[model_tipi_biglietto] ([model_key],[nome],[abbonamento],[sconto_comitiva])
+	VALUES ('base','Biglietto Base',0,'comitiva')
+GO
+
+INSERT INTO [dbo].[model_tipi_biglietto] ([model_key],[nome],[abbonamento],[sconto_comitiva])
+	VALUES ('gruppi','Gruppi Organizzati',0,'comitiva_organizzata')
+GO
+
+INSERT INTO [dbo].[model_tipi_biglietto] ([model_key],[nome],[abbonamento],[sconto_comitiva])
+	VALUES ('notturna','Biglietto Notturna',0,'')
+GO
+
+/****** Object:  Table [dbo].[model_tipi_briefing]    Script Date: 23/03/2011 17:50:18 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_tipi_briefing]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_tipi_briefing] (
+	[tipo] [varchar] (50) NOT NULL ,
+	[framework_type] [varchar] (255) NOT NULL ,
+	CONSTRAINT [PK_model_tipo_briefings] PRIMARY KEY  CLUSTERED 
+	(
+		[tipo]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[model_tipi_briefing] ([tipo],[framework_type])
+	VALUES ('TipoBriefingGenerico','')
+GO
+
+INSERT INTO [dbo].[model_tipi_briefing] ([tipo],[framework_type])
+	VALUES ('TipoBriefingImmediato',' ')
+GO
+
+INSERT INTO [dbo].[model_tipi_briefing] ([tipo],[framework_type])
+	VALUES ('TipoBriefingNotturna','')
+GO
+
+/****** Object:  Table [dbo].[model_tipi_cliente]    Script Date: 23/03/2011 17:50:18 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_tipi_cliente]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_tipi_cliente] (
+	[model_key] [varchar] (50) NOT NULL ,
+	[nome] [varchar] (50) NOT NULL ,
+	[tipo_briefing] [varchar] (50) NOT NULL ,
+	[durata_biglietto] [datetime] NOT NULL ,
+	CONSTRAINT [PK_model_tipi_cliente] PRIMARY KEY  CLUSTERED 
+	(
+		[model_key]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[model_tipi_cliente] ([model_key],[nome],[tipo_briefing],[durata_biglietto])
+	VALUES ('adulti','Adulti','adulti','2010-05-18 03:00:00.000')
+GO
+
+INSERT INTO [dbo].[model_tipi_cliente] ([model_key],[nome],[tipo_briefing],[durata_biglietto])
+	VALUES ('adulti_notturna','Adulti','notturna','2010-05-18 03:00:00.000')
+GO
+
+INSERT INTO [dbo].[model_tipi_cliente] ([model_key],[nome],[tipo_briefing],[durata_biglietto])
+	VALUES ('baby','Baby','baby','2010-05-18 01:00:00.000')
+GO
+
+INSERT INTO [dbo].[model_tipi_cliente] ([model_key],[nome],[tipo_briefing],[durata_biglietto])
+	VALUES ('bambini','Bambini','bambini','2010-05-18 01:00:00.000')
+GO
+
+INSERT INTO [dbo].[model_tipi_cliente] ([model_key],[nome],[tipo_briefing],[durata_biglietto])
+	VALUES ('ragazzi','Ragazzi','adulti','2010-05-18 03:00:00.000')
+GO
+
+/****** Object:  Table [dbo].[model_tipi_sconto]    Script Date: 23/03/2011 17:50:18 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[model_tipi_sconto]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[model_tipi_sconto] (
+	[tipo] [varchar] (50) NOT NULL ,
+	[framework_type] [varchar] (255) NOT NULL ,
+	CONSTRAINT [PK_model_tipo_sconti] PRIMARY KEY  CLUSTERED 
+	(
+		[tipo]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[model_tipi_sconto] ([tipo],[framework_type])
+	VALUES ('ScontoConteggio','IndianaPark.PercorsiAvventura.Model.ScontoConteggio')
+GO
+
+INSERT INTO [dbo].[model_tipi_sconto] ([tipo],[framework_type])
+	VALUES ('ScontoFisso','IndianaPark.PercorsiAvventura.Model.ScontoFisso')
+GO
+
+INSERT INTO [dbo].[model_tipi_sconto] ([tipo],[framework_type])
+	VALUES ('ScontoOmaggio','IndianaPark.PercorsiAvventura.Model.ScontoOmaggio')
+GO
+
+INSERT INTO [dbo].[model_tipi_sconto] ([tipo],[framework_type])
+	VALUES ('ScontoPercentuale','IndianaPark.PercorsiAvventura.Model.ScontoPercentuale')
+GO
+
+/****** Object:  Table [dbo].[plugin_parameters]    Script Date: 23/03/2011 17:50:18 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[plugin_parameters]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[plugin_parameters] (
+	[param_name] [nvarchar] (50) NOT NULL ,
+	[owner] [nvarchar] (255) NOT NULL ,
+	[param_value] [text] NULL ,
+	[param_type] [nvarchar] (255) NOT NULL ,
+	[is_public] [bit] NOT NULL ,
+	[is_readonly] [bit] NOT NULL ,
+	[description] [nvarchar] (255) NULL ,
+	CONSTRAINT [PK_plugin_parameters] PRIMARY KEY  CLUSTERED 
+	(
+		[param_name],
+		[owner]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+END
+
+GO
+
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('AlwaysAskPrinter','IndianaPark.Biglietti.PluginBiglietti','<?xml version="1.0" encoding="utf-16"?>
+<boolean>true</boolean>','System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Indica se ad ogni stampa chiedere per la configurazione della stampante')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('AskDeleteOnZero','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<boolean>false</boolean>','System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Indica se quando un contatore arriva a zero applicare l''azione di elimina automaticamente')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('AutoForward','IndianaPark.Biglietti.PluginBiglietti','<?xml version="1.0" encoding="utf-16"?>
+<boolean>true</boolean>','System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Se attivato permette di non mostrare le finestre con una sola scelta e di proseguire in automatico')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('AutoForward','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<boolean>true</boolean>','System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Se attivato permette di non mostrare le finestre con una sola scelta e di proseguire in automatico')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('ClienteCodeSize','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<int>3</int>','System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'La lunghezza in numero di cifre del codice del cliente')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('ClosingTime','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<long>684000000000</long>','System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Orario di chiusura del parco')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('DatabaseHost','IndianaPark.Persistence.PluginPersistence','<?xml version="1.0" encoding="utf-16"?>
+<string>LOCALHOST\SQLEXPRESS</string>','System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Host in cui cercare il DBMS')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('DatabasePassword','IndianaPark.Persistence.PluginPersistence','<?xml version="1.0" encoding="utf-16"?>
+<string>indianapark</string>','System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Password di autenticazione sul database')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('DatabaseSchema','IndianaPark.Persistence.PluginPersistence','<?xml version="1.0" encoding="utf-16"?>
+<string>indianapark_dev</string>','System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Database da utilizzare')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('DatabaseType','IndianaPark.Persistence.PluginPersistence','<?xml version="1.0" encoding="utf-16"?>
+<SupportedDatabase>SQLServer200x</SupportedDatabase>','IndianaPark.Persistence.PersistenceFactory+SupportedDatabase, Persistence, Version=1.0.0.32562, Culture=neutral, PublicKeyToken=ab5ba9da286d0b5a',1,0,'Tipo di database in uso')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('DatabaseUsername','IndianaPark.Persistence.PluginPersistence','<?xml version="1.0" encoding="utf-16"?>
+<string>indianapark</string>','System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Username per l''autenticazione sul database')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('LastBriefingBefore','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<long>54000000000</long>','System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Intervallo di tempo antecedente alla chiusura del parco da cui non sono più permessi briefings')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('ManageFine','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<boolean>false</boolean>','System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Indica se utilizzare il sistema di multe per i ritardi')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('NominativoCodeSize','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<int>3</int>','System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'La lunghezza in numero di cifre del codice del nominativo')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('NotturnaTime','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<long>756000000000</long>','System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Ora di inizio della notturna')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('OpeningTime','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<long>360000000000</long>','System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Orario di apertura del parco')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('SearchDirectory','IndianaPark.Biglietti.PluginBiglietti','<?xml version="1.0" encoding="utf-16"?>
+<string>\</string>','System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Directory in cui cercare i plugin di emissione biglietti')
+GO
+
+INSERT INTO [dbo].[plugin_parameters] ([param_name],[owner],[param_value],[param_type],[is_public],[is_readonly],[description])
+	VALUES ('SeeForwardMinutes','IndianaPark.PercorsiAvventura.PluginPercorsi','<?xml version="1.0" encoding="utf-16"?>
+<long>12000000000</long>','System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089',1,0,'Conteggia i clienti di ritorno nei prossimi N minuti')
+GO
+
+/****** Object:  Table [dbo].[sysdiagrams]    Script Date: 23/03/2011 17:50:19 ******/
+if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[sysdiagrams]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+ BEGIN
+CREATE TABLE [dbo].[sysdiagrams] (
+	[name] [sysname] NOT NULL ,
+	[principal_id] [int] NOT NULL ,
+	[diagram_id] [int] IDENTITY (1, 1) NOT NULL ,
+	[version] [int] NULL ,
+	[definition] [varbinary] (-1) NULL ,
+	 PRIMARY KEY  CLUSTERED 
+	(
+		[diagram_id]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+END
+
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'table', N'sysdiagrams'
+
+
+GO
+
+
+SET IDENTITY_INSERT [dbo].[sysdiagrams] ON
+SET IDENTITY_INSERT [dbo].[sysdiagrams] OFF
+
+ALTER TABLE [dbo].[model_biglietti_clienti] ADD CONSTRAINT [FK_model_biglietti_clienti_model_tipi_biglietto] FOREIGN KEY 
+	(
+		[tipo_biglietto]
+	) REFERENCES [model_tipi_biglietto] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_biglietti_clienti] ADD CONSTRAINT [FK_model_biglietti_clienti_model_tipi_cliente] FOREIGN KEY 
+	(
+		[tipo_cliente]
+	) REFERENCES [model_tipi_cliente] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_briefings] ADD CONSTRAINT [FK_model_briefings_model_tipo_briefings] FOREIGN KEY 
+	(
+		[tipo_briefing]
+	) REFERENCES [model_tipi_briefing] (
+		[tipo]
+	)
+GO
+ALTER TABLE [dbo].[model_clienti] ADD CONSTRAINT [FK_model_clienti_model_inserimenti1] FOREIGN KEY 
+	(
+		[cod_inserimento]
+	) REFERENCES [model_inserimenti] (
+		[id]
+	)
+GO
+ALTER TABLE [dbo].[model_clienti] ADD CONSTRAINT [FK_model_clienti_model_listino_prezzi] FOREIGN KEY 
+	(
+		[prezzo_base]
+	) REFERENCES [model_listino_prezzi] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_clienti] ADD CONSTRAINT [FK_model_clienti_model_sconti] FOREIGN KEY 
+	(
+		[sconto]
+	) REFERENCES [model_sconti] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_clienti] ADD CONSTRAINT [FK_model_clienti_model_sconti_comitiva] FOREIGN KEY 
+	(
+		[sconto_comitiva]
+	) REFERENCES [model_sconti] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_clienti] ADD CONSTRAINT [FK_model_clienti_model_tipi_cliente] FOREIGN KEY 
+	(
+		[tipo_cliente]
+	) REFERENCES [model_tipi_cliente] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_inserimenti] ADD CONSTRAINT [FK_model_inserimenti_model_nominativi] FOREIGN KEY 
+	(
+		[cod_nominativo]
+	) REFERENCES [model_nominativi] (
+		[id]
+	)
+GO
+ALTER TABLE [dbo].[model_inserimenti] ADD CONSTRAINT [FK_model_inserimenti_model_sconti] FOREIGN KEY 
+	(
+		[sconto_comitiva]
+	) REFERENCES [model_sconti] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_inserimenti] ADD CONSTRAINT [FK_model_inserimenti_model_tipi_biglietto] FOREIGN KEY 
+	(
+		[tipo_biglietto]
+	) REFERENCES [model_tipi_biglietto] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_listino_prezzi] ADD CONSTRAINT [FK_model_listino_prezzi_model_tipi_biglietto] FOREIGN KEY 
+	(
+		[tipo_biglietto]
+	) REFERENCES [model_tipi_biglietto] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_listino_prezzi] ADD CONSTRAINT [FK_model_listino_prezzi_model_tipi_cliente] FOREIGN KEY 
+	(
+		[tipo_cliente]
+	) REFERENCES [model_tipi_cliente] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_sconti] ADD CONSTRAINT [FK_model_sconti_model_tipo_sconti] FOREIGN KEY 
+	(
+		[tipo_sconto]
+	) REFERENCES [model_tipi_sconto] (
+		[tipo]
+	)
+GO
+ALTER TABLE [dbo].[model_tipi_biglietto] ADD CONSTRAINT [FK_model_tipi_biglietto_model_sconti] FOREIGN KEY 
+	(
+		[sconto_comitiva]
+	) REFERENCES [model_sconti] (
+		[model_key]
+	)
+GO
+ALTER TABLE [dbo].[model_tipi_cliente] ADD CONSTRAINT [FK_model_tipi_cliente_model_briefings] FOREIGN KEY 
+	(
+		[tipo_briefing]
+	) REFERENCES [model_briefings] (
+		[model_key]
+	)
+GO
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  View dbo.view_clienti_per_biglietto    Script Date: 23/03/2011 17:50:20 ******/
+CREATE VIEW [dbo].[view_clienti_per_biglietto]
+AS
+SELECT     dbo.model_tipi_biglietto.nome AS tipo_biglietto, dbo.model_tipi_biglietto.abbonamento, dbo.model_tipi_biglietto.sconto_comitiva, 
+                      dbo.model_tipi_cliente.nome AS tipo_cliente, dbo.model_tipi_cliente.tipo_briefing, dbo.model_tipi_cliente.durata_biglietto
+FROM         dbo.model_biglietti_clienti INNER JOIN
+                      dbo.model_tipi_biglietto ON dbo.model_biglietti_clienti.tipo_biglietto = dbo.model_tipi_biglietto.model_key INNER JOIN
+                      dbo.model_tipi_cliente ON dbo.model_biglietti_clienti.tipo_cliente = dbo.model_tipi_cliente.model_key
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'MS_DiagramPane1', N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "model_biglietti_clienti"
+            Begin Extent = 
+               Top = 22
+               Left = 250
+               Bottom = 109
+               Right = 431
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "model_tipi_biglietto"
+            Begin Extent = 
+               Top = 16
+               Left = 20
+               Bottom = 134
+               Right = 201
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "model_tipi_cliente"
+            Begin Extent = 
+               Top = 6
+               Left = 476
+               Bottom = 123
+               Right = 657
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 1320
+         Table = 2100
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+', N'user', N'dbo', N'view', N'view_clienti_per_biglietto'
+GO
+exec sp_addextendedproperty N'MS_DiagramPaneCount', 1, N'user', N'dbo', N'view', N'view_clienti_per_biglietto'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+/****** Object:  View dbo.view_sconti    Script Date: 23/03/2011 17:50:20 ******/
+CREATE VIEW [dbo].[view_sconti]
+WITH  VIEW_METADATA
+AS
+SELECT     dbo.model_sconti.model_key, dbo.model_sconti.sconto_comitiva, dbo.model_sconti.sconto_personale, dbo.model_sconti.nome, dbo.model_sconti.valore, 
+                      dbo.model_tipi_sconto.framework_type, dbo.model_sconti.ctor_parameters
+FROM         dbo.model_sconti INNER JOIN
+                      dbo.model_tipi_sconto ON dbo.model_sconti.tipo_sconto = dbo.model_tipi_sconto.tipo
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'MS_DiagramPane1', N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "model_sconti"
+            Begin Extent = 
+               Top = 6
+               Left = 38
+               Bottom = 176
+               Right = 219
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "model_tipi_sconto"
+            Begin Extent = 
+               Top = 6
+               Left = 257
+               Bottom = 93
+               Right = 438
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+      Begin ColumnWidths = 9
+         Width = 284
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 900
+         Table = 1170
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+', N'user', N'dbo', N'view', N'view_sconti'
+GO
+exec sp_addextendedproperty N'MS_DiagramPaneCount', 1, N'user', N'dbo', N'view', N'view_sconti'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  View dbo.view_tipi_briefing    Script Date: 23/03/2011 17:50:20 ******/
+CREATE VIEW [dbo].[view_tipi_briefing]
+AS
+SELECT     dbo.model_briefings.model_key, dbo.model_briefings.nome, dbo.model_briefings.durata, dbo.model_briefings.posti_totali, dbo.model_briefings.ask_user, 
+                      dbo.model_briefings.walk_time, dbo.model_tipi_briefing.framework_type, dbo.model_briefings.ctor_parameters
+FROM         dbo.model_briefings INNER JOIN
+                      dbo.model_tipi_briefing ON dbo.model_briefings.tipo_briefing = dbo.model_tipi_briefing.tipo
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'MS_DiagramPane1', N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "model_briefings"
+            Begin Extent = 
+               Top = 6
+               Left = 38
+               Bottom = 190
+               Right = 219
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "model_tipo_briefings"
+            Begin Extent = 
+               Top = 8
+               Left = 296
+               Bottom = 95
+               Right = 477
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+      Begin ColumnWidths = 9
+         Width = 284
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+         Width = 1500
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 900
+         Table = 1170
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+', N'user', N'dbo', N'view', N'view_tipi_briefing'
+GO
+exec sp_addextendedproperty N'MS_DiagramPaneCount', 1, N'user', N'dbo', N'view', N'view_tipi_briefing'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.GetIncassoTotale    Script Date: 23/03/2011 17:50:20 ******/
+CREATE PROCEDURE [dbo].[GetIncassoTotale]
+
+	@data_inizio char(17),
+    @data_fine char(17)
+
+AS
+BEGIN
+    -- Insert statements for procedure here
+	SELECT SUM(prezzo_finale)
+	FROM view_clienti
+	WHERE ora_ingresso > CONVERT( DateTime, @data_inizio ) AND
+          ora_ingresso < CONVERT( DateTime, @data_fine )
+END
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.GetTotaliSeparati    Script Date: 23/03/2011 17:50:20 ******/
+CREATE PROCEDURE [dbo].[GetTotaliSeparati]
+
+	@data_inizio char(17),
+    @data_fine char(17)
+
+AS
+	SELECT tipo_cliente,
+           tipo_biglietto,
+		   sconto,
+		   sconto_comitiva_applicato,
+           prezzo_finale,
+           COUNT(prezzo_finale) AS quantita,
+           SUM(prezzo_finale) AS totale_parziale
+	FROM view_clienti
+	WHERE ora_ingresso > CONVERT( DateTime, @data_inizio ) AND
+          ora_ingresso < CONVERT( DateTime, @data_fine )
+	GROUP BY tipo_biglietto, tipo_cliente, sconto, sconto_comitiva_applicato, prezzo_finale;
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.sp_alterdiagram    Script Date: 23/03/2011 17:50:20 ******/
+
+	CREATE PROCEDURE dbo.sp_alterdiagram
+	(
+		@diagramname 	sysname,
+		@owner_id	int	= null,
+		@version 	int,
+		@definition 	varbinary(max)
+	)
+	WITH EXECUTE AS 'dbo'
+	AS
+	BEGIN
+		set nocount on
+	
+		declare @theId 			int
+		declare @retval 		int
+		declare @IsDbo 			int
+		
+		declare @UIDFound 		int
+		declare @DiagId			int
+		declare @ShouldChangeUID	int
+	
+		if(@diagramname is null)
+		begin
+			RAISERROR ('Invalid ARG', 16, 1)
+			return -1
+		end
+	
+		execute as caller;
+		select @theId = DATABASE_PRINCIPAL_ID();	 
+		select @IsDbo = IS_MEMBER(N'db_owner'); 
+		if(@owner_id is null)
+			select @owner_id = @theId;
+		revert;
+	
+		select @ShouldChangeUID = 0
+		select @DiagId = diagram_id, @UIDFound = principal_id from dbo.sysdiagrams where principal_id = @owner_id and name = @diagramname 
+		
+		if(@DiagId IS NULL or (@IsDbo = 0 and @theId <> @UIDFound))
+		begin
+			RAISERROR ('Diagram does not exist or you do not have permission.', 16, 1);
+			return -3
+		end
+	
+		if(@IsDbo <> 0)
+		begin
+			if(@UIDFound is null or USER_NAME(@UIDFound) is null) -- invalid principal_id
+			begin
+				select @ShouldChangeUID = 1 ;
+			end
+		end
+
+		-- update dds data			
+		update dbo.sysdiagrams set definition = @definition where diagram_id = @DiagId ;
+
+		-- change owner
+		if(@ShouldChangeUID = 1)
+			update dbo.sysdiagrams set principal_id = @theId where diagram_id = @DiagId ;
+
+		-- update dds version
+		if(@version is not null)
+			update dbo.sysdiagrams set version = @version where diagram_id = @DiagId ;
+
+		return 0
+	END
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'procedure', N'sp_alterdiagram'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.sp_creatediagram    Script Date: 23/03/2011 17:50:20 ******/
+
+	CREATE PROCEDURE dbo.sp_creatediagram
+	(
+		@diagramname 	sysname,
+		@owner_id		int	= null, 	
+		@version 		int,
+		@definition 	varbinary(max)
+	)
+	WITH EXECUTE AS 'dbo'
+	AS
+	BEGIN
+		set nocount on
+	
+		declare @theId int
+		declare @retval int
+		declare @IsDbo	int
+		declare @userName sysname
+		if(@version is null or @diagramname is null)
+		begin
+			RAISERROR (N'E_INVALIDARG', 16, 1);
+			return -1
+		end
+	
+		execute as caller;
+		select @theId = DATABASE_PRINCIPAL_ID(); 
+		select @IsDbo = IS_MEMBER(N'db_owner');
+		revert; 
+		
+		if @owner_id is null
+		begin
+			select @owner_id = @theId;
+		end
+		else
+		begin
+			if @theId <> @owner_id
+			begin
+				if @IsDbo = 0
+				begin
+					RAISERROR (N'E_INVALIDARG', 16, 1);
+					return -1
+				end
+				select @theId = @owner_id
+			end
+		end
+		-- next 2 line only for test, will be removed after define name unique
+		if EXISTS(select diagram_id from dbo.sysdiagrams where principal_id = @theId and name = @diagramname)
+		begin
+			RAISERROR ('The name is already used.', 16, 1);
+			return -2
+		end
+	
+		insert into dbo.sysdiagrams(name, principal_id , version, definition)
+				VALUES(@diagramname, @theId, @version, @definition) ;
+		
+		select @retval = @@IDENTITY 
+		return @retval
+	END
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'procedure', N'sp_creatediagram'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.sp_dropdiagram    Script Date: 23/03/2011 17:50:20 ******/
+
+	CREATE PROCEDURE dbo.sp_dropdiagram
+	(
+		@diagramname 	sysname,
+		@owner_id	int	= null
+	)
+	WITH EXECUTE AS 'dbo'
+	AS
+	BEGIN
+		set nocount on
+		declare @theId 			int
+		declare @IsDbo 			int
+		
+		declare @UIDFound 		int
+		declare @DiagId			int
+	
+		if(@diagramname is null)
+		begin
+			RAISERROR ('Invalid value', 16, 1);
+			return -1
+		end
+	
+		EXECUTE AS CALLER;
+		select @theId = DATABASE_PRINCIPAL_ID();
+		select @IsDbo = IS_MEMBER(N'db_owner'); 
+		if(@owner_id is null)
+			select @owner_id = @theId;
+		REVERT; 
+		
+		select @DiagId = diagram_id, @UIDFound = principal_id from dbo.sysdiagrams where principal_id = @owner_id and name = @diagramname 
+		if(@DiagId IS NULL or (@IsDbo = 0 and @UIDFound <> @theId))
+		begin
+			RAISERROR ('Diagram does not exist or you do not have permission.', 16, 1)
+			return -3
+		end
+	
+		delete from dbo.sysdiagrams where diagram_id = @DiagId;
+	
+		return 0;
+	END
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'procedure', N'sp_dropdiagram'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.sp_helpdiagramdefinition    Script Date: 23/03/2011 17:50:20 ******/
+
+	CREATE PROCEDURE dbo.sp_helpdiagramdefinition
+	(
+		@diagramname 	sysname,
+		@owner_id	int	= null 		
+	)
+	WITH EXECUTE AS N'dbo'
+	AS
+	BEGIN
+		set nocount on
+
+		declare @theId 		int
+		declare @IsDbo 		int
+		declare @DiagId		int
+		declare @UIDFound	int
+	
+		if(@diagramname is null)
+		begin
+			RAISERROR (N'E_INVALIDARG', 16, 1);
+			return -1
+		end
+	
+		execute as caller;
+		select @theId = DATABASE_PRINCIPAL_ID();
+		select @IsDbo = IS_MEMBER(N'db_owner');
+		if(@owner_id is null)
+			select @owner_id = @theId;
+		revert; 
+	
+		select @DiagId = diagram_id, @UIDFound = principal_id from dbo.sysdiagrams where principal_id = @owner_id and name = @diagramname;
+		if(@DiagId IS NULL or (@IsDbo = 0 and @UIDFound <> @theId ))
+		begin
+			RAISERROR ('Diagram does not exist or you do not have permission.', 16, 1);
+			return -3
+		end
+
+		select version, definition FROM dbo.sysdiagrams where diagram_id = @DiagId ; 
+		return 0
+	END
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'procedure', N'sp_helpdiagramdefinition'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.sp_helpdiagrams    Script Date: 23/03/2011 17:50:20 ******/
+
+	CREATE PROCEDURE dbo.sp_helpdiagrams
+	(
+		@diagramname sysname = NULL,
+		@owner_id int = NULL
+	)
+	WITH EXECUTE AS N'dbo'
+	AS
+	BEGIN
+		DECLARE @user sysname
+		DECLARE @dboLogin bit
+		EXECUTE AS CALLER;
+			SET @user = USER_NAME();
+			SET @dboLogin = CONVERT(bit,IS_MEMBER('db_owner'));
+		REVERT;
+		SELECT
+			[Database] = DB_NAME(),
+			[Name] = name,
+			[ID] = diagram_id,
+			[Owner] = USER_NAME(principal_id),
+			[OwnerID] = principal_id
+		FROM
+			sysdiagrams
+		WHERE
+			(@dboLogin = 1 OR USER_NAME(principal_id) = @user) AND
+			(@diagramname IS NULL OR name = @diagramname) AND
+			(@owner_id IS NULL OR principal_id = @owner_id)
+		ORDER BY
+			4, 5, 1
+	END
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'procedure', N'sp_helpdiagrams'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.sp_renamediagram    Script Date: 23/03/2011 17:50:20 ******/
+
+	CREATE PROCEDURE dbo.sp_renamediagram
+	(
+		@diagramname 		sysname,
+		@owner_id		int	= null,
+		@new_diagramname	sysname
+	
+	)
+	WITH EXECUTE AS 'dbo'
+	AS
+	BEGIN
+		set nocount on
+		declare @theId 			int
+		declare @IsDbo 			int
+		
+		declare @UIDFound 		int
+		declare @DiagId			int
+		declare @DiagIdTarg		int
+		declare @u_name			sysname
+		if((@diagramname is null) or (@new_diagramname is null))
+		begin
+			RAISERROR ('Invalid value', 16, 1);
+			return -1
+		end
+	
+		EXECUTE AS CALLER;
+		select @theId = DATABASE_PRINCIPAL_ID();
+		select @IsDbo = IS_MEMBER(N'db_owner'); 
+		if(@owner_id is null)
+			select @owner_id = @theId;
+		REVERT;
+	
+		select @u_name = USER_NAME(@owner_id)
+	
+		select @DiagId = diagram_id, @UIDFound = principal_id from dbo.sysdiagrams where principal_id = @owner_id and name = @diagramname 
+		if(@DiagId IS NULL or (@IsDbo = 0 and @UIDFound <> @theId))
+		begin
+			RAISERROR ('Diagram does not exist or you do not have permission.', 16, 1)
+			return -3
+		end
+	
+		-- if((@u_name is not null) and (@new_diagramname = @diagramname))	-- nothing will change
+		--	return 0;
+	
+		if(@u_name is null)
+			select @DiagIdTarg = diagram_id from dbo.sysdiagrams where principal_id = @theId and name = @new_diagramname
+		else
+			select @DiagIdTarg = diagram_id from dbo.sysdiagrams where principal_id = @owner_id and name = @new_diagramname
+	
+		if((@DiagIdTarg is not null) and  @DiagId <> @DiagIdTarg)
+		begin
+			RAISERROR ('The name is already used.', 16, 1);
+			return -2
+		end		
+	
+		if(@u_name is null)
+			update dbo.sysdiagrams set [name] = @new_diagramname, principal_id = @theId where diagram_id = @DiagId
+		else
+			update dbo.sysdiagrams set [name] = @new_diagramname where diagram_id = @DiagId
+		return 0
+	END
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'procedure', N'sp_renamediagram'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  Stored Procedure dbo.sp_upgraddiagrams    Script Date: 23/03/2011 17:50:21 ******/
+
+	CREATE PROCEDURE dbo.sp_upgraddiagrams
+	AS
+	BEGIN
+		IF OBJECT_ID(N'dbo.sysdiagrams') IS NOT NULL
+			return 0;
+	
+		CREATE TABLE dbo.sysdiagrams
+		(
+			name sysname NOT NULL,
+			principal_id int NOT NULL,	-- we may change it to varbinary(85)
+			diagram_id int PRIMARY KEY IDENTITY,
+			version int,
+	
+			definition varbinary(max)
+			CONSTRAINT UK_principal_name UNIQUE
+			(
+				principal_id,
+				name
+			)
+		);
+
+
+		/* Add this if we need to have some form of extended properties for diagrams */
+		/*
+		IF OBJECT_ID(N'dbo.sysdiagram_properties') IS NULL
+		BEGIN
+			CREATE TABLE dbo.sysdiagram_properties
+			(
+				diagram_id int,
+				name sysname,
+				value varbinary(max) NOT NULL
+			)
+		END
+		*/
+
+		IF OBJECT_ID(N'dbo.dtproperties') IS NOT NULL
+		begin
+			insert into dbo.sysdiagrams
+			(
+				[name],
+				[principal_id],
+				[version],
+				[definition]
+			)
+			select	 
+				convert(sysname, dgnm.[uvalue]),
+				DATABASE_PRINCIPAL_ID(N'dbo'),			-- will change to the sid of sa
+				0,							-- zero for old format, dgdef.[version],
+				dgdef.[lvalue]
+			from dbo.[dtproperties] dgnm
+				inner join dbo.[dtproperties] dggd on dggd.[property] = 'DtgSchemaGUID' and dggd.[objectid] = dgnm.[objectid]	
+				inner join dbo.[dtproperties] dgdef on dgdef.[property] = 'DtgSchemaDATA' and dgdef.[objectid] = dgnm.[objectid]
+				
+			where dgnm.[property] = 'DtgSchemaNAME' and dggd.[uvalue] like N'_EA3E6268-D998-11CE-9454-00AA00A3F36E_' 
+			return 2;
+		end
+		return 1;
+	END
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'procedure', N'sp_upgraddiagrams'
+
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  User Defined Function dbo.CheckClienteOfBiglietto    Script Date: 23/03/2011 17:50:24 ******/
+CREATE FUNCTION [dbo].[CheckClienteOfBiglietto]
+	( @cliente varchar(50), @biglietto varchar(50) )
+	RETURNS bit
+AS
+BEGIN
+	DECLARE @output bit;
+	SET @output = 0;
+
+	SELECT @output = 1
+	FROM dbo.model_biglietti_clienti
+	WHERE tipo_biglietto = @biglietto AND
+		  tipo_cliente = @cliente;
+
+	RETURN @output;
+END
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  User Defined Function dbo.CheckClienteTotalPrice    Script Date: 23/03/2011 17:50:24 ******/
+CREATE FUNCTION [dbo].[CheckClienteTotalPrice] 
+	( @cod_inserimento int )
+	RETURNS bit
+AS
+BEGIN
+	-- Declare the return variable here
+	DECLARE @prezzo_clienti decimal(18, 2);
+	DECLARE @output bit; SET @output = 0;
+
+	SELECT @prezzo_clienti = SUM(prezzo_finale)
+	FROM model_clienti
+	WHERE cod_inserimento = @cod_inserimento AND
+		  prezzo_finale IS NOT NULL;
+
+	SELECT @output = 1
+	FROM model_inserimenti
+	WHERE ((prezzo_totale IS NOT NULL) AND (@prezzo_clienti IS NOT NULL) AND (id = @cod_inserimento) AND (prezzo_totale >= @prezzo_clienti)) OR
+		   prezzo_totale IS NULL OR
+		   @prezzo_clienti IS NULL;
+
+	RETURN @output;
+END
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  User Defined Function dbo.CheckClientiInserimento    Script Date: 23/03/2011 17:50:24 ******/
+CREATE FUNCTION [dbo].[CheckClientiInserimento]
+	( @ora_ingresso DateTime, @cod_inserimento int )
+	RETURNS bit
+AS
+BEGIN
+	DECLARE @output bit;
+	SET @output = 0;
+
+	SELECT @output = 1
+	FROM dbo.model_inserimenti
+	WHERE id = @cod_inserimento AND @ora_ingresso >= data_inserimento;
+
+	RETURN @output;
+END
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  User Defined Function dbo.CheckIsScontoComitiva    Script Date: 23/03/2011 17:50:24 ******/
+CREATE FUNCTION [dbo].[CheckIsScontoComitiva]
+	( @sconto_key varchar(50) )
+	RETURNS bit
+AS
+BEGIN
+	DECLARE @output bit; SET @output = 0;
+
+	SELECT @output = 1
+	FROM model_sconti
+	WHERE sconto_comitiva = 1;
+
+	RETURN @output;
+END
+
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/****** Object:  User Defined Function dbo.fn_diagramobjects    Script Date: 23/03/2011 17:50:24 ******/
+
+	CREATE FUNCTION dbo.fn_diagramobjects() 
+	RETURNS int
+	WITH EXECUTE AS N'dbo'
+	AS
+	BEGIN
+		declare @id_upgraddiagrams		int
+		declare @id_sysdiagrams			int
+		declare @id_helpdiagrams		int
+		declare @id_helpdiagramdefinition	int
+		declare @id_creatediagram	int
+		declare @id_renamediagram	int
+		declare @id_alterdiagram 	int 
+		declare @id_dropdiagram		int
+		declare @InstalledObjects	int
+
+		select @InstalledObjects = 0
+
+		select 	@id_upgraddiagrams = object_id(N'dbo.sp_upgraddiagrams'),
+			@id_sysdiagrams = object_id(N'dbo.sysdiagrams'),
+			@id_helpdiagrams = object_id(N'dbo.sp_helpdiagrams'),
+			@id_helpdiagramdefinition = object_id(N'dbo.sp_helpdiagramdefinition'),
+			@id_creatediagram = object_id(N'dbo.sp_creatediagram'),
+			@id_renamediagram = object_id(N'dbo.sp_renamediagram'),
+			@id_alterdiagram = object_id(N'dbo.sp_alterdiagram'), 
+			@id_dropdiagram = object_id(N'dbo.sp_dropdiagram')
+
+		if @id_upgraddiagrams is not null
+			select @InstalledObjects = @InstalledObjects + 1
+		if @id_sysdiagrams is not null
+			select @InstalledObjects = @InstalledObjects + 2
+		if @id_helpdiagrams is not null
+			select @InstalledObjects = @InstalledObjects + 4
+		if @id_helpdiagramdefinition is not null
+			select @InstalledObjects = @InstalledObjects + 8
+		if @id_creatediagram is not null
+			select @InstalledObjects = @InstalledObjects + 16
+		if @id_renamediagram is not null
+			select @InstalledObjects = @InstalledObjects + 32
+		if @id_alterdiagram  is not null
+			select @InstalledObjects = @InstalledObjects + 64
+		if @id_dropdiagram is not null
+			select @InstalledObjects = @InstalledObjects + 128
+		
+		return @InstalledObjects 
+	END
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+exec sp_addextendedproperty N'microsoft_database_tools_support', 1, N'user', N'dbo', N'function', N'fn_diagramobjects'
+
+GO
+

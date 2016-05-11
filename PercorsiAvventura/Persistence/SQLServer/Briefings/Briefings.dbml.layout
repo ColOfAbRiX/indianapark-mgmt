@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Briefings">
+  <DataContextMoniker Name="/BriefingsDataContext" />
+  <nestedChildShapes>
+    <classShape Id="4f2a963a-9a06-4dd3-8f45-41280f998bdf" absoluteBounds="3.25, 1.875, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/BriefingsDataContext/Briefings" />
+      <nestedChildShapes>
+        <elementListCompartment Id="58c9d3a1-2deb-4619-bd65-83d70273fc69" absoluteBounds="3.265, 2.335, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="637b5957-d5eb-4aba-8d4b-0d488f9690e7" absoluteBounds="6.125, 2, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/BriefingsDataContext/TIpiBriefing" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0f674186-6322-4000-9261-0f46925b1e1b" absoluteBounds="6.1400000000000006, 2.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(6.125 : 2.59699625651042); (5.25 : 2.59699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BriefingsDataContext/TIpiBriefing/TIpiBriefing_Briefings" />
+      <nodes>
+        <classShapeMoniker Id="637b5957-d5eb-4aba-8d4b-0d488f9690e7" />
+        <classShapeMoniker Id="4f2a963a-9a06-4dd3-8f45-41280f998bdf" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

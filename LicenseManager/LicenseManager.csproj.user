@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartArguments>--lic --srvcert-file=server.pfx  --clicert-file=client.pfx --reply --assembly-checksum --check-duration --check-features --check-fingerprint --checksum-path=. --duration=365 --license-file=license.lic --request-file=request.lic</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <StartArguments>--lic --srvcert-file=server.pfx  --clicert-file=client.pfx --reply --assembly-checksum --check-duration --check-features --check-fingerprint --checksum-path=. --duration=365 --license-file=license.lic --request-file=request.lic</StartArguments>
+  </PropertyGroup>
+</Project>

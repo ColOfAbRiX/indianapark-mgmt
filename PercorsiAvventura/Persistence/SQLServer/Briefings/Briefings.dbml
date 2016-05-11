@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="indianapark" EntityNamespace="IndianaPark.PercorsiAvventura.Persistence.SqlServer" ContextNamespace="IndianaPark.PercorsiAvventura.Persistence.SqlServer" Class="BriefingsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.model_briefings" Member="Briefings">
+    <Type Name="Briefings">
+      <Column Name="model_key" Member="ModelKey" Storage="_model_key" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="tipo_briefing" Member="TipoBriefing" Storage="_tipo_briefing" AccessModifier="Private" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nome" Member="Nome" Storage="_nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="durata" Member="Durata" Storage="_durata" Type="System.TimeSpan" DbType="bigint NOT NULL" CanBeNull="false" />
+      <Column Name="posti_totali" Member="PostiTotali" Storage="_posti_totali" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ask_user" Member="AskUser" Storage="_ask_user" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="walk_time" Member="WalkTime" Storage="_walk_time" Type="System.TimeSpan" DbType="bigint NOT NULL" CanBeNull="false" />
+      <Column Name="ctor_parameters" Member="CtorParameters" Storage="_ctor_parameters" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="TIpiBriefing_Briefings" Member="TIpiBriefing" Storage="_model_tipi_briefing" ThisKey="TipoBriefing" OtherKey="Tipo" Type="TIpiBriefing" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.model_tipi_briefing" Member="TIpiBriefing">
+    <Type Name="TIpiBriefing">
+      <Column Name="tipo" Member="Tipo" Storage="_tipo" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="framework_type" Member="FrameworkType" Storage="_framework_type" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="TIpiBriefing_Briefings" Member="Briefings" Storage="_model_briefings" ThisKey="Tipo" OtherKey="TipoBriefing" Type="Briefings" />
+    </Type>
+  </Table>
+</Database>

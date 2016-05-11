@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="indianapark" EntityNamespace="IndianaPark.PercorsiAvventura.Persistence.SqlServer" ContextNamespace="IndianaPark.PercorsiAvventura.Persistence.SqlServer" Class="PrezziDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.model_listino_prezzi" Member="ListinoPrezzi">
+    <Type Name="ListinoPrezzi">
+      <Column Name="model_key" Member="ModelKey" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nome" Member="Nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="prezzo" Member="Prezzo" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="tipo_biglietto" Member="TipoBiglietto" AccessModifier="Private" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="tipo_cliente" Member="TipoCliente" AccessModifier="Private" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="TipiCliente_ListinoPrezzi" Member="TipiCliente" ThisKey="TipoCliente" OtherKey="ModelKey" Type="TipiCliente" IsForeignKey="true" />
+      <Association Name="TipiBiglietto_ListinoPrezzi" Member="TipiBiglietto" ThisKey="TipoBiglietto" OtherKey="ModelKey" Type="TipiBiglietto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.model_biglietti_clienti" Member="ClientiPerBiglietto">
+    <Type Name="ClientiPerBiglietto">
+      <Column Name="tipo_biglietto" Member="TipoBiglietto" AccessModifier="Private" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="tipo_cliente" Member="TipoCliente" AccessModifier="Private" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="TipiCliente_ClientiPerBiglietto" Member="TipiCliente" ThisKey="TipoCliente" OtherKey="ModelKey" Type="TipiCliente" IsForeignKey="true" />
+      <Association Name="TipiBiglietto_ClientiPerBiglietto" Member="TipiBiglietto" ThisKey="TipoBiglietto" OtherKey="ModelKey" Type="TipiBiglietto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.model_tipi_cliente" Member="TipiCliente">
+    <Type Name="TipiCliente">
+      <Column Name="model_key" Member="ModelKey" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nome" Member="Nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="tipo_briefing" Member="TipoBriefing" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="durata_biglietto" Member="DurataBiglietto" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="TipiCliente_ListinoPrezzi" Member="ListinoPrezzi" ThisKey="ModelKey" OtherKey="TipoCliente" Type="ListinoPrezzi" />
+      <Association Name="TipiCliente_ClientiPerBiglietto" Member="ClientiPerBiglietto" ThisKey="ModelKey" OtherKey="TipoCliente" Type="ClientiPerBiglietto" />
+    </Type>
+  </Table>
+  <Table Name="dbo.model_tipi_biglietto" Member="TipiBiglietto">
+    <Type Name="TipiBiglietto">
+      <Column Name="model_key" Member="ModelKey" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nome" Member="Nome" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="abbonamento" Member="IsAbbonamento" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="sconto_comitiva" Member="ScontoComitiva" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="TipiBiglietto_ListinoPrezzi" Member="ListinoPrezzi" ThisKey="ModelKey" OtherKey="TipoBiglietto" Type="ListinoPrezzi" />
+      <Association Name="TipiBiglietto_ClientiPerBiglietto" Member="ClientiPerBiglietto" ThisKey="ModelKey" OtherKey="TipoBiglietto" Type="ClientiPerBiglietto" />
+    </Type>
+  </Table>
+</Database>

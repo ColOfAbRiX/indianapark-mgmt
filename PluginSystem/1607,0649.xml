@@ -1,0 +1,1498 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PluginSystem</name>
+    </assembly>
+    <members>
+        <member name="T:IndianaPark.Plugin.IndianaparkPlugin">
+            <summary>
+            Implementazione generica ed astratta per un plugin di default
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IPluginRunnable">
+            <summary>
+            Rappresenta un plugin che dispone di esecuzione differita
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IPlugin">
+            <summary>
+            Interfaccia che deve essere implementata da tutti i plugin
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPlugin.Load">
+            <summary>
+            Funzione utilizzata per l'inizializzazione del plugin.
+            </summary>
+            <remarks>
+            Viene chiamata una volta quando il programma si avvia ed il plugin viene caricato, subito dopo il costruttore.
+            Viene utilizzata per istanziare le variabili, creare le configurazioni, ed operazioni simili.
+            </remarks>
+            <returns><c>true</c> se il caricamento ha avuto esito positivo, <c>false</c> altrimenti</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPlugin.Dispose">
+            <summary>
+            Funzione utilizzata per la chiusura del plugin.
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPlugin.Name">
+            <summary>
+            Nome del plugin. Deve essere la stringa che contiene il nome della classe del plugin
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPlugin.Location">
+            <summary>
+            Il percorso assoluto della DLL contenente il plugin.
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPlugin.Host">
+            <summary>
+            Oggetto contenitore del plugin. Utilizzato per fare interagire il plugin con l'ambiente esterno
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPlugin.Parameters">
+            <summary>
+            Insieme dei parametri di configurazione del plugin
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IPlugin.PluginLoaded">
+            <summary>
+            Evento che si scatena quando il plugin ha terminato di caricarsi
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IPlugin.PluginDisposed">
+            <summary>
+            Evento che si scatena quando il plugin è stato finalizzato per la terminazione
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IPlugin.HostChanged">
+            <summary>
+            Evento che si scatena quando viene cambiato l'host del plugin
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IPlugin.ConfigChanged">
+            <summary>
+            Scatenato ogni volta che un valore di configurazione cambia
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Avvia le routine di gestione del plugin.
+            </summary>
+            <param name="owner">L'oggetto che richiede l'esecuzione del plugin</param>
+            <remarks>
+            Il suo scopo è quello di differire l'esecuzione delle routine del plugin dalle procedure di caricamento;
+            un esempio d'uso è l'impostazione di configurazioni prima dell'avvio del plugin
+            </remarks>
+        </member>
+        <member name="E:IndianaPark.Plugin.IPluginRunnable.PluginRun">
+            <summary>
+            Evento che si scatena quando viene chiamata la routine Run() del plugin
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IPluginViewable">
+            <summary>
+            Rappresenta un plugin che permette di interagire con l'utente. Più precisamente questa interfaccia permette
+            ad un oggetto <see cref="T:IndianaPark.Plugin.IPluginGraphicHost"/> di estrarre dal plugin le sue interfacce grafiche.
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginViewable.GetCommandPanel">
+            <summary>
+            Utilizzata per recuperare un'interfaccia grafica per l'interazione con l'utente. Il controllo utente
+            recuperato viene, di solito, aggiunto alla finestra principale del programma
+            </summary>
+            <returns>Il pannello da aggiungere all'interfaccia grafica. Null in caso non si debba aggiungere niente</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginViewable.GetDropdownMenu">
+            <summary>
+            Utilizzata per recuperare un elemento di un menù a tendina da aggiungere al menu principale della GUI.
+            </summary>
+            <returns>Il menu da aggiungere. Null in caso non si debba aggiungere niente</returns>
+        </member>
+        <member name="F:IndianaPark.Plugin.IndianaparkPlugin.m_host">
+            <summary>
+            Contiene il proprietario del plugin
+            </summary>
+        </member>
+        <member name="F:IndianaPark.Plugin.IndianaparkPlugin.m_config">
+            <summary>
+            Contiene i dati di configurazione
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.OnPluginRunning">
+            <summary>
+            Scatena l'evento PluginRunning
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.OnPluginLoaded">
+            <summary>
+            Scatena l'evento PluginLoaded
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.OnPluginDisposed">
+            <summary>
+            Scatena l'evento PluginDisposed
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.OnHostChanged">
+            <summary>
+            Scatena l'evento HostChanged
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.OnConfigChanged">
+            <summary>
+            Scatena l'evento ConfigChanged
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.#ctor(IndianaPark.Plugin.IPluginHost)">
+            <summary>
+            Costruttore
+            </summary>
+            <param name="host">Contenitore del plugin</param>
+            <exception cref="T:System.ArgumentNullException">Il riferimento al contenitore del plugin non può essere <c>null</c></exception>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.SaveConfiguration">
+            <summary>
+            Salva tutti i parametri di configurazione del plugin nel database
+            </summary>
+            <remarks>
+            Questa funzione deve essere chiamata solamente quando il gestore della persistenza è associato al plugin
+            </remarks>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.LoadConfiguration">
+            <summary>
+            Carica i parametri di configurazione memorizzati nella persistenza
+            </summary>
+            <remarks>
+            Questa funzione deve essere chiamata solamente quando il gestore della persistenza è associato al plugin
+            </remarks>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.RegisterLoadingFunctions(IndianaPark.Plugin.IndianaparkPlugin.LoadingFunction)">
+            <summary>
+            Registra le funzioni di caricamento dati da database per essere chiamate ogni volta
+            che il database diventa pronto
+            </summary>
+            <param name="configuring">Le funzioni di configurazione da chiamare</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.Load">
+            <summary>
+            Funzione utilizzata per l'inizializzazione del plugin. Viene chiamata una volta quando il programma si
+            avvia ed il plugin viene caricato.
+            </summary>
+            <returns>
+            True se il caricamento ha avuto esito positivo, False altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.Dispose">
+            <summary>
+            Funzione utilizzata per la chiusura del plugin.
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.GetCommandPanel">
+            <summary>
+            Utilizzata per recuperare un'interfaccia grafica per l'interazione con l'utente. Il controllo utente
+            recuperato viene, di solito, aggiunto alla finestra principale del programma
+            </summary>
+            <returns>
+            Il pannello da aggiungere all'interfaccia grafica. Null in caso non si debba aggiungere niente
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.GetDropdownMenu">
+            <summary>
+            Utilizzata per recuperare un elemento di un menù a tendina da aggiungere al menu principale della GUI.
+            </summary>
+            <returns>
+            Il menu da aggiungere. Null in caso non si debba aggiungere niente
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.ToString">
+            <summary>
+            Restituisce un oggetto String che rappresenta l'oggetto corrente.
+            </summary>
+            <returns>
+            Oggetto String che rappresenta l'oggetto corrente
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IndianaparkPlugin.Run(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Avvia le routine di gestione del plugin. Il suo scopo è quello di differire l'esecuzione delle routine del
+            plugin dalle procedure di caricamento; un esempio d'uso è l'impostazione di configurazioni prima dell'
+            avvio del plugin
+            </summary>
+            <remarks>
+            Il suo scopo è quello di differire l'esecuzione delle routine del plugin dalle procedure di caricamento;
+            un esempio d'uso è l'impostazione di configurazioni prima dell'avvio del plugin
+            </remarks>
+        </member>
+        <member name="P:IndianaPark.Plugin.IndianaparkPlugin.Host">
+            <summary>
+            Oggetto contenitore del plugin. Utilizzato per fare interagire il plugin con l'ambiente esterno
+            </summary>
+            <value>Oggetto contenitore del plugin.</value>
+        </member>
+        <member name="P:IndianaPark.Plugin.IndianaparkPlugin.Location">
+            <summary>
+            Il percorso assoluto della DLL contenente il plugin.
+            </summary>
+            <value>Il percorso assoluto della DLL contenente il plugin.</value>
+        </member>
+        <member name="P:IndianaPark.Plugin.IndianaparkPlugin.Name">
+            <summary>
+            Nome del plugin. Deve essere la stringa che contiene il nome della classe del plugin
+            </summary>
+            <value>Il nome del plugin</value>
+        </member>
+        <member name="P:IndianaPark.Plugin.IndianaparkPlugin.Parameters">
+            <summary>
+            Insieme dei parametri di configurazione del plugin
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IndianaparkPlugin.PluginLoaded">
+            <summary>
+            Evento che si scatena quando il plugin ha terminato di caricarsi
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IndianaparkPlugin.PluginDisposed">
+            <summary>
+            Evento che si scatena quando il plugin è stato finalizzato per la terminazione
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IndianaparkPlugin.PluginRun">
+            <summary>
+            Evento che si scatena quando viene chiamata la routine Run() del plugin
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IndianaparkPlugin.HostChanged">
+            <summary>
+            Evento che si scatena quando viene cambiato l'host del plugin
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IndianaparkPlugin.ConfigChanged">
+            <summary>
+            Scatenato ogni volta che un valore di configurazione cambia
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IndianaparkPlugin.LoadingFunction">
+            <summary>
+            Delegato che rappresenta le funzioni di configurazione
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.PluginConfigWriteAccessArgument">
+            <summary>
+            Dati resi disponibili quando il valore del parametro viene cambiato
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigWriteAccessArgument.#ctor(System.Object,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndianaPark.Plugin.PluginConfigWriteAccessArgument"/> class.
+            </summary>
+            <param name="oldValue">The old value.</param>
+            <param name="newValue">The new value.</param>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigWriteAccessArgument.OldValue">
+            <summary>
+            Valore originale del parametro
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigWriteAccessArgument.NewValue">
+            <summary>
+            Nuovo valore da memorizzare al posto del vecchio
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.PluginConfigValue">
+            <summary>
+            Rappresenta un valore di configurazione di un plugin
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IConfigValue">
+            <summary>
+            Rappresenta un valore di configurazione
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IConfigValue.Name">
+            <summary>
+            Nome del valore di configurazione
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IConfigValue.Value">
+            <summary>
+            Valore di configurazione
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IConfigValue.ValueType">
+            <summary>
+            Il tipo di dato che l'istanza gestisce
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IConfigValue.Description">
+            <summary>
+            Descrizione del dato di configurazione
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IConfigValue.IsReadonly">
+            <summary>
+            Indica se la configurazione è di sola lettura
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IConfigValue.IsPublic">
+            <summary>
+            Indica se la configurazione è pubblica, cioè se può essere modificata dagli utente
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IConfigValue.Reading">
+            <summary>
+            Richiamato quando c'è un accesso in lettura al valore di configurazione
+            </summary>
+            <remarks>
+            L'evento è generato prima che il valore venga restituito
+            </remarks>
+        </member>
+        <member name="E:IndianaPark.Plugin.IConfigValue.Changing">
+            <summary>
+            Richiamato quando c'è un accesso in scrittura al valore di configurazione.
+            </summary>
+            <remarks>
+            L'evento è generato prima che il vecchio valore venga sovrascritto
+            </remarks>
+        </member>
+        <member name="E:IndianaPark.Plugin.IConfigValue.Changed">
+            <summary>
+            Richiamato quando il valore del parametro è stato modificato
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IConfigPersistent">
+            <summary>
+            Indica che un valore di configurazione può essere reso persistente
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IConfigPersistent.SaveParameter">
+            <summary>
+            Tenta di salvare il parametro dal database
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IConfigPersistent.Persistence">
+            <summary>
+            L'oggetto che serve per mantenere la persistenza
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IConfigPersistent.OwnerName">
+            <summary>
+            Permette di impostare e recuperare il nome del proprietario del valore
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.op_Equality(IndianaPark.Plugin.PluginConfigValue,IndianaPark.Plugin.PluginConfigValue)">
+            <summary>
+            Implements the operator ==.
+            </summary>
+            <param name="leftOperand">The left operand.</param>
+            <param name="rightOperand">The right operand.</param>
+            <returns>The result of the operator.</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.op_Inequality(IndianaPark.Plugin.PluginConfigValue,IndianaPark.Plugin.PluginConfigValue)">
+            <summary>
+            Implements the operator !=.
+            </summary>
+            <param name="leftOperand">The left operand.</param>
+            <param name="rightOperand">The right operand.</param>
+            <returns>The result of the operator.</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.#ctor(System.String)">
+            <summary>
+            Costruttore. Il dato di configurazione creato viene impostato a null, pubblico e rw
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il nome del plugin è obbligatorio</exception>
+            <param name="name">Nome del dato di configurazione</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.#ctor(System.String,System.Object)">
+            <summary>
+            Costruttore. Il dato di configurazione creato viene impostato come pubblico e rw
+            </summary>
+            <param name="name">Nome del dato di configurazione</param>
+            <param name="value">Valore del dato di configurazione. Può anche essere null</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.#ctor(System.String,System.Object,System.String)">
+            <summary>
+            Costruttore. Il dato di configurazione creato viene impostato come pubblico e rw
+            </summary>
+            <param name="name">Nome del dato di configurazione</param>
+            <param name="value">Valore del dato di configurazione. Può anche essere null</param>
+            <param name="description">Descrizione del valore di configurazione</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.#ctor(System.String,System.Object,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Costruttore
+            </summary>
+            <remarks>
+            La classe è costruita in modo tale da non permettere variazioni sul tipo di dato memorizzato. Il tipo di dato memorizzato
+            viene impostato in fase di creazione e rimane lo stesso per tutta la vita dell'istanza.
+            </remarks>
+            <exception cref="T:System.ArgumentNullException"><paramref name="name"/> non può essere null</exception>
+            <param name="name">Nome del dato di configurazione</param>
+            <param name="value">Valore del dato di configurazione. Non può essere null. Se serve null utilizzare il costruttore apposito</param>
+            <param name="isPublic">Indica se la configurazione è pubblica</param>
+            <param name="isReadonly">Indica se la configurazione è di sola lettura</param>
+            <param name="description">Descrizione del valore di configurazione</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.#ctor(System.String,System.Type,System.String)">
+            <summary>
+            Costruttore. Il dato di configurazione creato viene impostato come pubblico e rw
+            </summary>
+            <param name="name">Nome del dato di configurazione</param>
+            <param name="type">Tipo di dato del valore di configurazione</param>
+            <param name="description">Descrizione del valore di configurazion</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.#ctor(System.String,System.Type,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Costruttore
+            </summary>
+            <remarks>
+            <para>La classe è costruita in modo tale da non permettere variazioni sul tipo di dato memorizzato. Il tipo di dato memorizzato
+            viene impostato in fase di creazione e rimane lo stesso per tutta la vita dell'istanza.</para>
+            <para>Il valore dell'oggetto è impostato a <c>null</c></para>
+            </remarks>
+            <exception cref="T:System.ArgumentNullException"><paramref name="name"/> non può essere null</exception>
+            <param name="name">Nome del dato di configurazione</param>
+            <param name="valueType">Tipo di dato del valore di configurazione</param>
+            <param name="isPublic">Indica se la configurazione è pubblica</param>
+            <param name="isReadonly">Indica se la configurazione è di sola lettura</param>
+            <param name="description">Descrizione del valore di configurazione</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.OnReading">
+            <summary>
+            Utilizzata per generare l'evento <see cref="E:IndianaPark.Plugin.PluginConfigValue.Reading"/>
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.OnChanged">
+            <summary>
+            Utilizzata per generare l'evento <see cref="E:IndianaPark.Plugin.PluginConfigValue.Changed"/>
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.OnChanging(System.Object,System.Object)">
+            <summary>
+            Utilizzata per generare l'evento <see cref="E:IndianaPark.Plugin.PluginConfigValue.Changing"/>
+            </summary>
+            <param name="oldValue">Il vecchio valore</param>
+            <param name="newValue">Il nuovo valore</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.Equals(IndianaPark.Plugin.IConfigValue)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <returns>
+            <c>true</c> se i due briefing hanno lo stesso inizio e appartengono alla stessa tipologia, <c>false</c> altrimenti
+            </returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+            	<c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+            <exception cref="T:System.NullReferenceException">
+            The <paramref name="obj"/> parameter is null.
+            </exception>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginConfigValue.SaveParameter">
+            <summary>
+            Tenta di salvare il parametro dal database
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigValue.Name">
+            <summary>
+            Nome del valore di configurazione
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigValue.Value">
+            <summary>
+            Valore di configurazione
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigValue.ValueType">
+            <summary>
+            Il tipo di dato che l'istanza gestisce
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigValue.Description">
+            <summary>
+            Descrizione del dato di configurazione
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigValue.IsPublic">
+            <summary>
+            Indica se la configurazione è pubblica, cioè se può essere modificata dagli utente
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigValue.IsReadonly">
+            <summary>
+            Indica se la configurazione è di sola lettura
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.PluginConfigValue.Reading">
+            <summary>
+            Richiamato quando c'è un accesso in lettura al valore di configurazione
+            </summary>
+            <remarks>
+            L'evento è generato prima che il valore venga restituito
+            </remarks>
+        </member>
+        <member name="E:IndianaPark.Plugin.PluginConfigValue.Changing">
+            <summary>
+            Richiamato quando c'è un accesso in scrittura al valore di configurazione
+            </summary>
+            <remarks>
+            L'evento è generato prima che il vecchio valore venga sovrascritto
+            </remarks>
+        </member>
+        <member name="E:IndianaPark.Plugin.PluginConfigValue.Changed">
+            <summary>
+            Richiamato quando il valore del parametro è stato modificato
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigValue.Persistence">
+            <summary>
+            L'oggetto che serve per mantenere la persistenza
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginConfigValue.OwnerName">
+            <summary>
+            Permette di impostare e recuperare il nome del proprietario del valore
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IPersistence">
+            <summary>
+            Interfaccia per permettere la persistenza dei dati
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPersistence.GetConnection">
+            <summary>
+            Recupera la connessione al database
+            </summary>
+            <returns>Un oggetto rappresentante la connessione al database</returns>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPersistence.IsConnectionInitialized">
+            <summary>
+            Indica se la connessione è stata inizializzata
+            </summary>
+            <value>
+            	<c>true</c> se la connessione è stata inizializzata <c>false</c>, altrimenti.
+            </value>
+        </member>
+        <member name="E:IndianaPark.Plugin.IPersistence.ConnectionChanged">
+            <summary>
+            Avviene quando viene creata una nuova connessione.
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IPluginGraphicHost">
+            <summary>
+              Interfaccia dei gestori della GUI preposti a presentare l'interazione con l'utente dei plugin
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginGraphicHost.AttachInterface(IndianaPark.Plugin.IPluginViewable)">
+            <summary>
+              Utilizzato per collegare la grafica del plugin specificato all'host grafico del plugin
+            </summary>
+            <param name="plugin">Il plugin da aggiungere nella grafica</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginGraphicHost.DetachInterface(IndianaPark.Plugin.IPluginViewable)">
+            <summary>
+              Utilizzato per rimuovere la grafica del plugin specificato all'host grafico del plugin
+            </summary>
+            <param name="plugin">Il plugin da aggiungere nella grafica</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginGraphicHost.GetMainForm">
+            <summary>
+            Permette di ricavare la finestra principale
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IPluginHost">
+            <summary>
+              Interfaccia che rappresenta un contenitore di plugin
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPluginHost.GraphicHost">
+            <summary>
+              Oggetto gestore della GUI deoi plugin. Utilizzato per fare interagire il plugin con l'ambiente esterno.
+            </summary>
+            <value>L'host grafico</value>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPluginHost.Manager">
+            <summary>
+              Oggetto che si occupa della gestione di tutti i plugin, come il cariamento e scaricamento, l'esecuzione, ...
+            </summary>
+            <value>Il gestore dei plugin</value>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPluginHost.Persistence">
+            <summary>
+              Oggetto che si occupa delle operazioni di base per la persistenza dei dati, come la connessione ad un database
+            </summary>
+            <value>Il gestore della persistenza</value>
+        </member>
+        <member name="E:IndianaPark.Plugin.IPluginHost.GraphicHostChanged">
+            <summary>
+            Avviene quando il gestore della GUI viene cambiato
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.IPluginHost.PersistenceChanged">
+            <summary>
+            Avviene quando il gestore della persistenza viene cambiato
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.IPluginManager">
+            <summary>
+              Interfaccia dei contenitori dei plugin.
+            </summary>
+            <remarks>
+              In questa implementazione un gestore di plugin è anche un contenitore di plugin, cosa non ovvia.
+              Per questo viene anche implementato IEnumerable, per dare comodità d'uso ai client
+            </remarks>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.LoadAll(System.String)">
+            <summary>
+            Carica tutti i plugin.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il percorso del file da caricare <paramref name="subPath"/> deve essere specificato.</exception>
+            <remarks>
+            <para>La ricerca avviene a partire dalla directory di esecuzione del programma e prosegue in tutte le sue sottodirecyory.</para>
+            <para>La funzione scarica tutti i plugin precedentemente caricati.</para>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/>.</para>
+            </remarks>
+            <param name="subPath">Il percorso relativo partire dalla directory di esecuzione del programma.</param>
+            <returns>
+            Il numero di plugin caricati con successo.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.LoadAll">
+            <summary>
+            Carica tutti i plugin.
+            </summary>
+            <remarks>
+            <para>La ricerca avviene a partire dalla directory di esecuzione del programma e prosegue in tutte le sue sottodirectory.</para>
+            <para>La funzione scarica tutti i plugin precedentemente caricati.</para>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/>.</para>
+            </remarks>
+            <returns>
+            Il numero di plugin caricati con successo.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.LoadFromPath(System.String)">
+            <summary>
+            Carica dalla DLL indicata tutti i plugin in essa implementati.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il percorso del file da caricare <paramref name="fileSubpath"/> deve essere specificato.</exception>
+            <remarks>
+            <para>
+            <paramref name="fileSubpath"/> è un percorso relativo alla directory di esecuzione del programma, exception può essere il percorso di un
+            file DLL o di una directory. Per maggiori informazioni vedere <see cref="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)"/>.
+            </para>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/></para>
+            </remarks>
+            <param name="fileSubpath">Il percorso relativo della DLL a partire dalla directory di esecuzione del programma.</param>
+            <returns>
+            <c>true</c> se almeno un plugin stato caricato dalla DLL, <c>false</c> altrimenti.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.LoadFromPath(System.String,System.String)">
+            <summary>
+            Carica uno specifico plugin da una DLL
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il percorso del file da caricare <paramref name="fileSubpath"/> deve essere specificato</exception>
+            <exception cref="T:System.ArgumentNullException">Il nome del plugin da caricare <paramref name="name"/> deve essere specificato</exception>
+            <remarks>
+            <para>La ricerca avviene nella directory di esecuzione del programma.</para>
+            <para>La funzione scarica tutti i plugin precedentemente caricati.</para>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/></para>
+            </remarks>
+            <param name="fileSubpath">Il percorso relativo della DLL a partire dalla directory di esecuzione del programma</param>
+            <param name="name">Il nome del plugin (ovvero il nome della classe che implementa l'interfaccia plugin)</param>
+            <returns>
+            <c>true</c> se il plugin è stato caricato con successo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.LoadFromName(System.String)">
+            <summary>
+            Carica uno specifico plugin
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il nome del plugin da caricare <paramref name="name"/> deve essere specificato.</exception>
+            <remarks>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/></para>
+            <para>La ricerca avviene a partire dalla directory di esecuzione del programma e prosegue in tutte le sue sottodirecyory.</para>
+            </remarks>
+            <param name="name">Il nome del plugin (ovvero il nome della classe che implementa l'interfaccia plugin)</param>
+            <returns>
+            <c>true</c> se il plugin è stato caricato con successo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.UnloadAll">
+            <summary>
+            Scarica tutti i plugin avviati
+            </summary>
+            <remarks>
+            Prima di scaricare il plugin viene chiamato il metodo <see cref="M:IndianaPark.Plugin.IPlugin.Dispose"/> di ogni plugin.
+            </remarks>
+            <returns>
+            <c>true</c> se tutti i plugin sono stati scaricato, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.UnloadFromPath(System.String)">
+            <summary>
+            Scarica dalla memoria tutti i plugin presenti dalla DLL indicata
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il percorso del file da caricare <paramref name="fileSubpath"/> deve essere specificato</exception>
+            <remarks>
+            <para>Prima di scaricare il plugin viene chiamato il metodo <see cref="M:IndianaPark.Plugin.IPlugin.Dispose"/> di ogni plugin.</para>
+            <para>Il percorso di ricerca è relativo alla directory di esecuzione del programma.</para>
+            </remarks>
+            <param name="fileSubpath">Il percorso relativo della DLL a partire dalla directory di esecuzione del programma</param>
+            <returns>
+            <c>true</c> se tutti i plugin della DLL sono stati scaricato, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.Unload(System.String)">
+            <summary>
+            Scarica il plugin indicato
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il nome del plugin da caricare <paramref name="name"/> deve essere specificato</exception>
+            <remarks>
+            <para>Prima di scaricare il plugin viene chiamato il metodo <see cref="M:IndianaPark.Plugin.IPlugin.Dispose"/> del plugin stesso</para>
+            <para>Il percorso di ricerca è relativo alla directory di esecuzione del programma.</para>
+            </remarks>
+            <param name="name">Il nome della classe del plugin da scaricare</param>
+            <returns>
+            <c>true</c> se lo scaricamento ha esito positivo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.Unload(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Scarica il plugin indicato
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificata in <paramref name="plugin"/> un'istanza valida del plugin da scaricare</exception>
+            <remarks>
+            <para>Prima di scaricare il plugin viene chiamato il metodo <see cref="M:IndianaPark.Plugin.IPlugin.Dispose"/> del plugin stesso</para>
+            <para>Il percorso di ricerca è relativo alla directory di esecuzione del programma.</para>
+            </remarks>
+            <param name="plugin">Istanza del plugin da scaricare</param>
+            <returns>
+            <c>true</c> se lo scaricamento ha esito positivo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.RunAll(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Esegue la procedura principale di tutti i plugin caricati
+            </summary>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <remarks>
+            <para>Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/></para>
+            <para>Per essere caricato il plugin deve dipendere dall'<paramref name="owner"/> indicato</para>
+            </remarks>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.RunIndipendents">
+            <summary>
+            Esegue la procedura principale di tutti i plugin non dipendono da nessun altro plugin
+            </summary>
+            <remarks>
+            Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/>
+            </remarks>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.RunOwneds(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Esegue la procedura principale di tutti e soli i plugi che dipendono dal chiamante
+            </summary>
+            <remarks>
+            Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/>
+            </remarks>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.RunFromPath(System.String,IndianaPark.Plugin.IPlugin,System.Boolean)">
+            <summary>
+            Esegue la procedura principale di tutti i plugin contenuti in una DLL.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il percorso del file <paramref name="fileSubpath"/></exception>
+            <remarks>
+            <para>Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/></para>
+            <para>
+            <paramref name="fileSubpath"/> è un percorso relativo alla directory di esecuzione del programma, exception può essere il percorso di un
+            file DLL o di una directory. Per maggiori informazioni vedere <see cref="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)"/>
+            </para>
+            </remarks>
+            <param name="fileSubpath">Percorso del file in cui cercare i plugin da caricare.</param>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <param name="strict">Se impostato a <c>true</c> permette di eseguire solo il plugin dipendente dal <paramref name="owner"/> ignorando i
+            plugin senza nessun owner</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.RunFromPath(System.String)">
+            <summary>
+            Esegue la procedura principale di tutti i plugin contenuti in una DLL.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il percorso del file <paramref name="fileSubpath"/></exception>
+            <remarks>
+            <para>
+            Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/>
+            </para>
+            <para>
+            <paramref name="fileSubpath"/> è un percorso relativo alla directory di esecuzione del programma, exception può essere il percorso di un
+            file DLL o di una directory. Per maggiori informazioni vedere <see cref="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)"/>
+            </para>
+            </remarks>
+            <param name="fileSubpath">Nome del plugin da avviare</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.Run(System.String,IndianaPark.Plugin.IPlugin,System.Boolean)">
+            <summary>
+            Esegue la procedura principale di un plugin.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il nome del plugin <paramref name="name"/></exception>
+            <remarks>Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/></remarks>
+            <param name="name">Nome del plugin da avviare</param>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <param name="strict">Se impostato a <c>true</c> permette di eseguire solo il plugin dipendente dal <paramref name="owner"/> ignorando i
+            plugin senza nessun owner</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.Run(System.String)">
+            <summary>
+            Esegue la procedura principale di un plugin.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il nome del plugin <paramref name="name"/></exception>
+            <remarks>Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/></remarks>
+            <param name="name">Nome del plugin da avviare</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.IsLoaded(System.String)">
+            <summary>
+              Controlla se il plugin specificato è stato caricato
+            </summary>
+            <param name="name">Il nome del plugin da cercare comprensivo del suo Namespace</param>
+            <returns><c>true</c> se il plugin indicato è stato caricato, <c>false</c> altrimenti</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.GetFromName(System.String)">
+            <summary>
+            Recupera l'istanza del plugin con il nome specificato
+            </summary>
+            <param name="name">Il nome del plugin completo di namespace</param>
+            <returns>
+            L'istanza del plugin cercato o null se non presente
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.GetFromPath(System.String)">
+            <summary>
+            Restituisce la lista dei plugin che appartiene al file specificato
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il percorso del file <paramref name="fileSubpath"/></exception>
+            <remarks>
+            <para>
+            <paramref name="fileSubpath"/> è un percorso relativo alla directory di esecuzione del programma, exception può essere il percorso di un
+            file DLL o di una directory. Per maggiori informazioni vedere <see cref="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)"/>
+            </para>
+            </remarks>
+            <param name="fileSubpath">Nome del plugin da avviare</param>
+            <returns>La lista dei plugin contenuti nel file specificato</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.IPluginManager.GetOwned(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Restituisce la lista dei plugin che dipendono dall'oggeto indicato
+            </summary>
+            <param name="owner">Il proprietario</param>
+            <returns>La lista dei plugin che dipendono dall'oggetto indicato</returns>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPluginManager.Item(System.String)">
+            <summary>
+            Recupera l'istanza del plugin con il nome specificato
+            </summary>
+            <value>Nome del plugin da recuperare</value>
+            <returns>L'istanza del plugin scelto</returns>
+        </member>
+        <member name="P:IndianaPark.Plugin.IPluginManager.ScanRecursively">
+            <summary>
+            Indica se cercare i plugin in maniera ricorsiva oppure no dalla directory di avvio
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.Persistence.PluginConfigLocalPersistence">
+            <summary>
+            Oggetto che si occupa di salvare i parametri di configurazione dei plugin su un file XML
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.Persistence.IConfigPersistence">
+            <summary>
+            Interfaccia che rappresenta la possibilità di salvare e caricare i dati da database
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.IConfigPersistence.LoadAllParameters(System.String)">
+            <summary>
+            Carica tutti i parametri dei plugin
+            </summary>
+            <param name="owner">Il nome del plugin di cui caricare i parametri</param>
+            <returns>La lista con i valori di configurazione per il plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.IConfigPersistence.LoadParameter(System.String,System.String)">
+            <summary>
+            Carica un parametro
+            </summary>
+            <param name="name">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui fa parte</param>
+            <returns>Il valore di configurazione del plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.IConfigPersistence.SaveParameter(IndianaPark.Plugin.IConfigValue,System.String)">
+            <summary>
+            Salva un parametro
+            </summary>
+            <param name="config">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui fa parte</param>
+            <returns>Il valore di configurazione del plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.IConfigPersistence.SaveAllParameters(System.Collections.Generic.IDictionary{System.String,IndianaPark.Plugin.IConfigValue},System.String)">
+            <summary>
+            Salva tutti i parametri dei plugin
+            </summary>
+            <param name="configs">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui caricare i parametri</param>
+            <returns>La lista con i valori di configurazione per il plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigLocalPersistence.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndianaPark.Plugin.Persistence.PluginConfigLocalPersistence"/> class.
+            </summary>
+            <param name="configFile">The config file.</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigLocalPersistence.LoadAllParameters(System.String)">
+            <summary>
+            Carica tutti i parametri dei plugin
+            </summary>
+            <param name="owner">Il nome del plugin di cui caricare i parametri</param>
+            <returns>La lista con i valori di configurazione per il plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigLocalPersistence.LoadParameter(System.String,System.String)">
+            <summary>
+            Carica un parametro
+            </summary>
+            <param name="name">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui fa parte</param>
+            <returns>Il valore di configurazione del plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigLocalPersistence.SaveParameter(IndianaPark.Plugin.IConfigValue,System.String)">
+            <summary>
+            Salva un parametro
+            </summary>
+            <param name="config">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui fa parte</param>
+            <returns>Il valore di configurazione del plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigLocalPersistence.SaveAllParameters(System.Collections.Generic.IDictionary{System.String,IndianaPark.Plugin.IConfigValue},System.String)">
+            <summary>
+            Salva tutti i parametri dei plugin
+            </summary>
+            <param name="configs">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui caricare i parametri</param>
+            <returns><c>true</c> se tutti i parametri sono stati salvati correttamente, <c>false</c> se anche uno solo non è stato salvato</returns>
+        </member>
+        <member name="T:IndianaPark.Plugin.PluginManager">
+            <summary>
+            Classe concreta del gestore dei plugin. La classe implementa sia IPluginManager che IPluginHost,
+            pertanto svolge una doppia funzione
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.OnGraphicHostChanged">
+            <summary>
+            Avvia l'evento GraphicHostChanged
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.OnPersistenceChanged">
+            <summary>
+            Avvia l'evento PesistenceChanged
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Restituisce un enumeratore per l'intero insieme.
+            </summary>
+            <returns>
+            Oggetto IEnumerator per l'intero insieme.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.AddToSet(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Aggiunge un plugin all'insieme dei plugin gestiti
+            </summary>
+            <param name="plugin">Il plugin da aggiungere</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.RemoveFromSet(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Rimuove un plugin all'insieme dei plugin gestiti
+            </summary>
+            <param name="plugin">Il plugin da rimuovere</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.LoadFromAssembly(System.Reflection.Assembly,System.String)">
+            <summary>
+            La funzione carica un plugin da un assembly specificato. Lo istanzia, chiama la funzione di inizializzazione
+            e poi lo aggiunge alla lista dei plugin caricati
+            </summary>
+            <param name="asm">L'assembly da cui caricare il plugin</param>
+            <param name="name">Il nome della classe del plugin</param>
+            <returns><c>true</c> se il plugin è stato caricato correttamente, <c>false</c> altrimenti</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.RunAll(IndianaPark.Plugin.IPlugin,System.Boolean)">
+            <summary>
+            Esegue la procedura principale di tutti i plugin caricati.
+            </summary>
+            <remarks>
+            Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/>
+            </remarks>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <param name="strict">Se impostato a <c>true</c> permette di eseguire solo il plugin dipendente dal <paramref name="owner"/> ignorando i
+            plugin senza nessun owner</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)">
+            <summary>
+            Recupera la lista dei percorsi assoluti di DLL
+            </summary>
+            <param name="customPath">Il percorso relativo alla directory d'esecuzione</param>
+            <param name="searchOption">Ricorsività della ricerca.</param>
+            <returns>La lista delle DLL trovate</returns>
+            <remarks>
+            Se viene passato il percorso relativo di una DLL viene restituito semplicemente il percorso assoluto di quel file. Se viene
+            passato il percorso relativo di una directory viene restituita la lista delle DLL in quella directory.
+            </remarks>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.Dispose">
+            <summary>
+            Releases unmanaged resources and performs other cleanup operations before the
+            <see cref="T:IndianaPark.Plugin.PluginManager"/> is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.LoadAll">
+            <summary>
+            Carica tutti i plugin.
+            </summary>
+            <remarks>
+            <para>La ricerca avviene a partire dalla directory di esecuzione del programma e prosegue in tutte le sue sottodirectory.</para>
+            <para>La funzione scarica tutti i plugin precedentemente caricati.</para>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/>.</para>
+            </remarks>
+            <returns>
+            Il numero di plugin caricati con successo.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.UnloadAll">
+            <summary>
+            Scarica tutti i plugin avviati
+            </summary>
+            <remarks>
+            Prima di scaricare il plugin viene chiamato il metodo <see cref="M:IndianaPark.Plugin.IPlugin.Dispose"/> di ogni plugin.
+            </remarks>
+            <returns>
+            <c>true</c> se tutti i plugin sono stati scaricato, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.RunIndipendents">
+            <summary>
+            Esegue la procedura principale di tutti i plugin non dipendono da nessun altro plugin
+            </summary>
+            <remarks>
+            Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/>
+            </remarks>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.GetEnumerator">
+            <summary>
+            Restituisce un enumeratore per l'intero insieme.
+            </summary>
+            <returns>
+            Oggetto IEnumerator&lt;KeyValuePair&lt;string, IPlugin&gt;&gt; per l'intero insieme.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.LoadAll(System.String)">
+            <summary>
+            Carica tutti i plugin.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il percorso del file da caricare <paramref name="subPath"/> deve essere specificato.</exception>
+            <remarks>
+            <para>La ricerca avviene a partire dalla directory di esecuzione del programma e prosegue in tutte le sue sottodirecyory.</para>
+            <para>La funzione scarica tutti i plugin precedentemente caricati.</para>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/>.</para>
+            </remarks>
+            <param name="subPath">Il percorso relativo partire dalla directory di esecuzione del programma.</param>
+            <returns>
+            Il numero di plugin caricati con successo.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.LoadFromPath(System.String)">
+            <summary>
+            Carica dalla DLL indicata tutti i plugin in essa implementati.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il percorso del file da caricare <paramref name="fileSubpath"/> deve essere specificato.</exception>
+            <remarks>
+            <para>
+            <paramref name="fileSubpath"/> è un percorso relativo alla directory di esecuzione del programma, exception può essere il percorso di un
+            file DLL o di una directory. Per maggiori informazioni vedere <see cref="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)"/>.
+            </para>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/></para>
+            </remarks>
+            <param name="fileSubpath">Il percorso relativo della DLL a partire dalla directory di esecuzione del programma.</param>
+            <returns>
+            <c>true</c> se almeno un plugin stato caricato dalla DLL, <c>false</c> altrimenti.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.LoadFromName(System.String)">
+            <summary>
+            Carica uno specifico plugin
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il nome del plugin da caricare <paramref name="name"/> deve essere specificato.</exception>
+            <remarks>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/></para>
+            <para>La ricerca avviene a partire dalla directory di esecuzione del programma e prosegue in tutte le sue sottodirecyory.</para>
+            </remarks>
+            <param name="name">Il nome del plugin (ovvero il nome della classe che implementa l'interfaccia plugin)</param>
+            <returns>
+            <c>true</c> se il plugin è stato caricato con successo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.UnloadFromPath(System.String)">
+            <summary>
+            Scarica dalla memoria tutti i plugin presenti dalla DLL indicata
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il percorso del file da caricare <paramref name="fileSubpath"/> deve essere specificato</exception>
+            <remarks>
+            <para>Prima di scaricare il plugin viene chiamato il metodo <see cref="M:IndianaPark.Plugin.IPlugin.Dispose"/> di ogni plugin.</para>
+            <para>Il percorso di ricerca è relativo alla directory di esecuzione del programma.</para>
+            </remarks>
+            <param name="fileSubpath">Il percorso relativo della DLL a partire dalla directory di esecuzione del programma</param>
+            <returns>
+            <c>true</c> se tutti i plugin della DLL sono stati scaricato, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.Unload(System.String)">
+            <summary>
+            Scarica il plugin indicato
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il nome del plugin da caricare <paramref name="name"/> deve essere specificato</exception>
+            <remarks>
+            <para>Prima di scaricare il plugin viene chiamato il metodo <see cref="M:IndianaPark.Plugin.IPlugin.Dispose"/> del plugin stesso</para>
+            <para>Il percorso di ricerca è relativo alla directory di esecuzione del programma.</para>
+            </remarks>
+            <param name="name">Il nome della classe del plugin da scaricare</param>
+            <returns>
+            <c>true</c> se lo scaricamento ha esito positivo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.Unload(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Scarica il plugin indicato
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificata in <paramref name="plugin"/> un'istanza valida del plugin da scaricare</exception>
+            <remarks>
+            <para>Prima di scaricare il plugin viene chiamato il metodo <see cref="M:IndianaPark.Plugin.IPlugin.Dispose"/> del plugin stesso</para>
+            <para>Il percorso di ricerca è relativo alla directory di esecuzione del programma.</para>
+            </remarks>
+            <param name="plugin">Istanza del plugin da scaricare</param>
+            <returns>
+            <c>true</c> se lo scaricamento ha esito positivo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.RunAll(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Esegue la procedura principale di tutti i plugin caricati
+            </summary>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <remarks>
+            <para>Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/></para>
+            <para>Per essere caricato il plugin deve dipendere dall'<paramref name="owner"/> indicato</para>
+            </remarks>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.RunOwneds(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Esegue la procedura principale di tutti e soli i plugi che dipendono dal chiamante
+            </summary>
+            <remarks>
+            Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/>
+            </remarks>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.RunFromPath(System.String)">
+            <summary>
+            Esegue la procedura principale di tutti i plugin contenuti in una DLL.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il percorso del file <paramref name="fileSubpath"/></exception>
+            <remarks>
+            <para>
+            Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/>
+            </para>
+            <para>
+            <paramref name="fileSubpath"/> è un percorso relativo alla directory di esecuzione del programma, exception può essere il percorso di un
+            file DLL o di una directory. Per maggiori informazioni vedere <see cref="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)"/>
+            </para>
+            </remarks>
+            <param name="fileSubpath">Nome del plugin da avviare</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.Run(System.String)">
+            <summary>
+            Esegue la procedura principale di un plugin.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il nome del plugin <paramref name="name"/></exception>
+            <remarks>Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/></remarks>
+            <param name="name">Nome del plugin da avviare</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.IsLoaded(System.String)">
+            <summary>
+            Controlla se è stato caricato il plugin specificato
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il nome del plugin <paramref name="name"/></exception>
+            <param name="name">Il nome del plugin da cercare</param>
+            <returns>
+            <c>true</c> se il plugin indicato è stato caricato, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.GetFromName(System.String)">
+            <summary>
+            Recupera l'istanza del plugin con il nome specificato
+            </summary>
+            <param name="name">Il nome del plugin completo di namespace</param>
+            <returns>
+            L'istanza del plugin cercato o null se non presente
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.GetFromPath(System.String)">
+            <summary>
+            Restituisce la lista dei plugin che appartiene al file specificato
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il percorso del file <paramref name="fileSubpath"/></exception>
+            <remarks>
+            <para>
+            <paramref name="fileSubpath"/> è un percorso relativo alla directory di esecuzione del programma, exception può essere il percorso di un
+            file DLL o di una directory. Per maggiori informazioni vedere <see cref="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)"/>
+            </para>
+            </remarks>
+            <param name="fileSubpath">Nome del plugin da avviare</param>
+            <returns>La lista dei plugin contenuti nel file specificato</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.GetOwned(IndianaPark.Plugin.IPlugin)">
+            <summary>
+            Restituisce la lista dei plugin che dipendono dall'oggeto indicato
+            </summary>
+            <param name="owner">Il proprietario</param>
+            <returns>La lista dei plugin che dipendono dall'oggetto indicato</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.LoadFromPath(System.String,System.String)">
+            <summary>
+            Carica uno specifico plugin da una DLL
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Il percorso del file da caricare <paramref name="fileSubpath"/> deve essere specificato</exception>
+            <exception cref="T:System.ArgumentNullException">Il nome del plugin da caricare <paramref name="name"/> deve essere specificato</exception>
+            <remarks>
+            <para>La ricerca avviene nella directory di esecuzione del programma.</para>
+            <para>La funzione scarica tutti i plugin precedentemente caricati.</para>
+            <para>Il caricamento comprende la ricerca dei plugin, l'istanziazione e la chiamata di <see cref="M:IndianaPark.Plugin.IPlugin.Load"/></para>
+            </remarks>
+            <param name="fileSubpath">Il percorso relativo della DLL a partire dalla directory di esecuzione del programma</param>
+            <param name="name">Il nome del plugin (ovvero il nome della classe che implementa l'interfaccia plugin)</param>
+            <returns>
+            <c>true</c> se il plugin è stato caricato con successo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.RunFromPath(System.String,IndianaPark.Plugin.IPlugin,System.Boolean)">
+            <summary>
+            Esegue la procedura principale di tutti i plugin contenuti in una DLL.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il percorso del file <paramref name="fileSubpath"/></exception>
+            <remarks>
+            <para>Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/></para>
+            <para>
+            <paramref name="fileSubpath"/> è un percorso relativo alla directory di esecuzione del programma, exception può essere il percorso di un
+            file DLL o di una directory. Per maggiori informazioni vedere <see cref="M:IndianaPark.Plugin.PluginManager.GetFileList(System.String,System.IO.SearchOption)"/>
+            </para>
+            </remarks>
+            <param name="fileSubpath">Percorso del file in cui cercare i plugin da caricare.</param>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <param name="strict">Se impostato a <c>true</c> permette di eseguire solo il plugin dipendente dal <paramref name="owner"/> ignorando i
+            plugin senza nessun owner</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo su tutti i plugin, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginManager.Run(System.String,IndianaPark.Plugin.IPlugin,System.Boolean)">
+            <summary>
+            Esegue la procedura principale di un plugin.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Deve essere specificato il nome del plugin <paramref name="name"/></exception>
+            <remarks>Il plugin deve implementare l'interfaccia <see cref="T:IndianaPark.Plugin.IPluginRunnable"/></remarks>
+            <param name="name">Nome del plugin da avviare</param>
+            <param name="owner">Il chiamante dell'esecuzione del plugin</param>
+            <param name="strict">Se impostato a <c>true</c> permette di eseguire solo il plugin dipendente dal <paramref name="owner"/> ignorando i
+            plugin senza nessun owner</param>
+            <returns>
+            <c>true</c> se la procedura <see cref="M:IndianaPark.Plugin.IPluginRunnable.Run(IndianaPark.Plugin.IPlugin)"/> è stata chiamata con successo, <c>false</c> altrimenti
+            </returns>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginManager.GraphicHost">
+            <summary>
+            Host grafico associato con il gestore di plugin
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginManager.Manager">
+            <summary>
+            Gestore dei plugin. Viene restituito sempre l'istanza corrente, exception non è possibile modificarla
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginManager.Persistence">
+            <summary>
+              Oggetto che si occupa delle operazioni di base per la persistenza dei dati, come la connessione ad un database
+            </summary>
+            <value>Il gestore della persistenza</value>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginManager.ScanRecursively">
+            <summary>
+            Indica se cercare i plugin in maniera ricorsiva oppure no dalla directory di avvio
+            </summary>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginManager.Item(System.String)">
+            <summary>
+            Recupera l'istanza del plugin con il nome specificato
+            </summary>
+            <returns>L'istanza del plugin cercato o null se non presente</returns>
+        </member>
+        <member name="E:IndianaPark.Plugin.PluginManager.GraphicHostChanged">
+            <summary>
+            Avviene quando il gestore della GUI viene cambiato
+            </summary>
+        </member>
+        <member name="E:IndianaPark.Plugin.PluginManager.PersistenceChanged">
+            <summary>
+            Avviene quando il gestore della persistenza viene cambiato
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.Persistence.PluginConfigDBPersistence">
+            <summary>
+            Oggetto che si occupa di salvare i parametri di configurazione dei plugin su un database
+            </summary>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigDBPersistence.#ctor(IndianaPark.Plugin.IPersistence)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndianaPark.Plugin.Persistence.PluginConfigDBPersistence"/> class.
+            </summary>
+            <param name="persistence">The persistence.</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigDBPersistence.LoadAllParameters(System.String)">
+            <summary>
+            Carica tutti i parametri dei plugin
+            </summary>
+            <param name="owner">Il nome del plugin di cui caricare i parametri</param>
+            <returns>La lista con i valori di configurazione per il plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigDBPersistence.LoadParameter(System.String,System.String)">
+            <summary>
+            Carica un parametro
+            </summary>
+            <param name="name">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui fa parte</param>
+            <returns>Il valore di configurazione del plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigDBPersistence.SaveParameter(IndianaPark.Plugin.IConfigValue,System.String)">
+            <summary>
+            Salva un parametro
+            </summary>
+            <param name="config">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui fa parte</param>
+            <returns>Il valore di configurazione del plugin</returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.Persistence.PluginConfigDBPersistence.SaveAllParameters(System.Collections.Generic.IDictionary{System.String,IndianaPark.Plugin.IConfigValue},System.String)">
+            <summary>
+            Salva tutti i parametri dei plugin
+            </summary>
+            <param name="configs">Il nome del parametro</param>
+            <param name="owner">Il nome del plugin di cui caricare i parametri</param>
+            <returns>La lista con i valori di configurazione per il plugin</returns>
+        </member>
+        <member name="T:IndianaPark.Plugin.PluginOwnersAttribute">
+            <summary>
+            Attributo che descrive a quali altri plugin appartiene un plugin.
+            </summary>
+            <remarks>
+            <para>
+            Solo gli oggetti proprietari del plugin possono eseguire un plugin.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginOwnersAttribute.#ctor(System.String[])">
+            <summary>
+            Costruttore della classe <see cref="T:IndianaPark.Plugin.PluginOwnersAttribute"/>.
+            </summary>
+            <remarks>
+            <para>La stringa identificativa di un proprietario deve essere comprensiva di namespace</para>
+            <para>Una stringa identifica una classe proprietaria e non un'istanza.</para>
+            </remarks>
+            <param name="owners">Il percorso completo delle classi che sono proprietarie del plugin</param>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginOwnersAttribute.Contains(System.String)">
+            <summary>
+            Determina se contiene il proprietario specificato
+            </summary>
+            <param name="name">Nome del plugin</param>
+            <returns>
+            	<c>true</c> se contiene il proprietario specificato, <c>false</c> altrimenti.
+            </returns>
+        </member>
+        <member name="M:IndianaPark.Plugin.PluginOwnersAttribute.ToString">
+            <summary>
+            Restituisce un <see cref="T:System.String"/> che contiene la lista completa dei proprietari
+            </summary>
+            <returns>
+            Un oggetto <see cref="T:System.String"/> che contiene la lista completa dei proprietari
+            </returns>
+        </member>
+        <member name="P:IndianaPark.Plugin.PluginOwnersAttribute.Owners">
+            <summary>
+            La lista dei proprietari del plugin
+            </summary>
+        </member>
+        <member name="T:IndianaPark.Plugin.PluginEventHandler">
+            <summary>
+              Delegato che rappresenta un evento generato dai plugin
+            </summary>
+            <param name="sender">L'istanza del plugin che ha sollevato l'evento</param>
+            <param name="exception">I parametri dell'evento</param>
+        </member>
+    </members>
+</doc>

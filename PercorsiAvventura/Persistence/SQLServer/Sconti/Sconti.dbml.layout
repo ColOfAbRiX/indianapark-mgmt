@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Sconti">
+  <DataContextMoniker Name="/ScontiDataContext" />
+  <nestedChildShapes>
+    <classShape Id="3ead7706-4009-44f6-9497-0a577cf585cb" absoluteBounds="2.625, 2.125, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/ScontiDataContext/TableSconti" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0e83b17f-cb2d-4330-be38-1e1d898be183" absoluteBounds="2.64, 2.585, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="af807128-71a9-4ee3-845b-9442669293b9" absoluteBounds="6, 2.625, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/ScontiDataContext/TableTipiSconto" />
+      <nestedChildShapes>
+        <elementListCompartment Id="30386345-1314-4b53-ad2a-345598494347" absoluteBounds="6.015, 3.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(6 : 3.22199625651042); (4.625 : 3.22199625651042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/ScontiDataContext/TableTipiSconto/TableTipiSconto_TableSconti" />
+      <nodes>
+        <classShapeMoniker Id="af807128-71a9-4ee3-845b-9442669293b9" />
+        <classShapeMoniker Id="3ead7706-4009-44f6-9497-0a577cf585cb" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

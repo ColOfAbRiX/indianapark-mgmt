@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7CC9810D-F95F-4966-BB0B-B5CC2084E897}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IndianaPark.PercorsiAvventura</RootNamespace>
+    <AssemblyName>PercorsiAvventura</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\IndianaPark\bin\Debug\</OutputPath>
+    <IntermediateOutputPath>..\IndianaPark\obj\Debug\</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\IndianaPark\bin\Debug\PercorsiAvventura.XML</DocumentationFile>
+    <NoWarn>1607,0649, 1699</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\IndianaPark\bin\Release\</OutputPath>
+    <IntermediateOutputPath>..\IndianaPark\obj\Release\</IntermediateOutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>1</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <NoWarn>1607,0649,1699</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\IndianaPark\bin\Debug\</OutputPath>
+    <IntermediateOutputPath>..\IndianaPark\obj\Debug\</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;X86</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\IndianaPark\bin\Release\</OutputPath>
+    <IntermediateOutputPath>..\IndianaPark\obj\Release\</IntermediateOutputPath>
+    <DefineConstants>TRACE;RELEASE,X86</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>1</WarningLevel>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <NoWarn>1607,0649, 1699</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\IndianaPark\bin\Debug\</OutputPath>
+    <IntermediateOutputPath>..\IndianaPark\obj\Debug\</IntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;X64</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\x86\Debug\PercorsiAvventura.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\IndianaPark\bin\Release\</OutputPath>
+    <IntermediateOutputPath>..\IndianaPark\obj\Release\</IntermediateOutputPath>
+    <DefineConstants>TRACE;RELEASE,X64</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>1607,0649, 1699</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>..\IndianaPark\bin\Release\PercorsiAvventura.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\ClientiView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ClientiView.Designer.cs">
+      <DependentUpon>ClientiView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TotaleCassa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TotaleCassa.Designer.cs">
+      <DependentUpon>TotaleCassa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\RiassuntoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\RiassuntoForm.Designer.cs">
+      <DependentUpon>RiassuntoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\SceltaAbbonamentoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\SceltaAbbonamentoForm.Designer.cs">
+      <DependentUpon>SceltaAbbonamentoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\ScontoPersonalizzato\SceltaScontoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\ScontoPersonalizzato\SceltaScontoForm.Designer.cs">
+      <DependentUpon>SceltaScontoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\ScontoPersonalizzato\ScontoPersonalizzatoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\ScontoPersonalizzato\ScontoPersonalizzatoForm.Designer.cs">
+      <DependentUpon>ScontoPersonalizzatoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Abbonamenti\Abbonamento.cs" />
+    <Compile Include="Model\Abbonamenti\AbbonamentoIngressi.cs" />
+    <Compile Include="Model\Abbonamenti\AbbonamentoTempo.cs" />
+    <Compile Include="Model\Abbonamenti\IAbbonamento.cs" />
+    <Compile Include="Model\Briefings\Briefing.cs" />
+    <Compile Include="Model\Briefings\IBriefing.cs" />
+    <Compile Include="Model\Briefings\ITipoBriefing.cs" />
+    <Compile Include="Model\Briefings\TipoBriefingBase.cs" />
+    <Compile Include="Model\Briefings\TipoBriefingGenerico.cs" />
+    <Compile Include="Model\Briefings\TipoBriefingImmediato.cs" />
+    <Compile Include="Model\Briefings\TipoBriefingNotturna.cs" />
+    <Compile Include="Model\Clienti\Cliente.cs" />
+    <Compile Include="Model\Clienti\ClienteWrapper.cs" />
+    <Compile Include="Model\Clienti\Inserimento.cs" />
+    <Compile Include="Model\Clienti\Nominativo.cs" />
+    <Compile Include="Model\Exceptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Model\Parco.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Model\Prezzi\PrezzoBase.cs" />
+    <Compile Include="Model\Prezzi\TipologiaBiglietto.cs" />
+    <Compile Include="Model\Prezzi\TipologiaCliente.cs" />
+    <Compile Include="Model\Sconti\ISconto.cs" />
+    <Compile Include="Model\Sconti\IScontoComitiva.cs" />
+    <Compile Include="Model\Sconti\ScontoBase.cs" />
+    <Compile Include="Model\Sconti\ScontoComitiva.cs" />
+    <Compile Include="Model\Sconti\ScontoConteggio.cs" />
+    <Compile Include="Model\Sconti\ScontoFamiglie.cs" />
+    <Compile Include="Model\Sconti\ScontoFisso.cs" />
+    <Compile Include="Model\Sconti\ScontoOmaggio.cs" />
+    <Compile Include="Model\Sconti\ScontoPercentuale.cs" />
+    <Compile Include="Model\Sconti\ScontoCambiaValore.cs" />
+    <Compile Include="Panels\ClienteEscape.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\ClienteEscape.Designer.cs">
+      <DependentUpon>ClienteEscape.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\MainWindowPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\MainWindowPanel.Designer.cs">
+      <DependentUpon>MainWindowPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\StatisticPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\StatisticPanel.Designer.cs">
+      <DependentUpon>StatisticPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\DescriptionValueRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\DescriptionValueRow.Designer.cs">
+      <DependentUpon>DescriptionValueRow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\NoDatabase\NullModelAccess.cs" />
+    <Compile Include="Persistence\ObjectFixerClient.cs" />
+    <Compile Include="Persistence\SQLServer\Clienti\ClientiModelPersistence.cs" />
+    <Compile Include="Persistence\SQLServer\Clienti\Clienti.cs">
+      <DependentUpon>Clienti.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\SQLServer\Clienti\Clienti.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Clienti.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\DataAccessFactory.cs" />
+    <Compile Include="Persistence\SQLServer\Sconti\Sconti.cs">
+      <DependentUpon>Sconti.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\SQLServer\Sconti\Sconti.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sconti.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\SQLServer\Sconti\ScontiFixer.cs" />
+    <Compile Include="Persistence\SQLServer\SqlModelAccess.cs" />
+    <Compile Include="Persistence\SQLServer\Sconti\ScontiModelPersistence.cs" />
+    <Compile Include="Reports\TicketReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TicketReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Wizards\EmissioneBiglietto\ClientiPartial.cs" />
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\ControlCreators.cs">
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\SceltaBriefingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\SceltaBriefingForm.Designer.cs">
+      <DependentUpon>SceltaBriefingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\Wizard\BriefingSelectRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\Wizard\BriefingSelectRow.Designer.cs">
+      <DependentUpon>BriefingSelectRow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PluginPercorsi.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\Wizard\TipoClienteRow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\Wizard\TipoClienteRow.Designer.cs">
+      <DependentUpon>TipoClienteRow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\TipoBigliettoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\TipoBigliettoForm.Designer.cs">
+      <DependentUpon>TipoBigliettoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\TipoClienteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\EmissioneBiglietto\TipoClienteForm.Designer.cs">
+      <DependentUpon>TipoClienteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizards\EmissioneBiglietto\ScontoPersonalizzato\CustomDiscountBuilder.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\ScontoPersonalizzato\Statuses\InputScontoState.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\BigliettoPercorsiBuilder.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\Statuses\ModificaScontiStates.cs">
+    </Compile>
+    <Compile Include="Wizards\EmissioneBiglietto\Statuses\NominativoAbbonamentoState.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\Statuses\TipoAbbonamentoState.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\Statuses\NominativoState.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\Statuses\RiassuntoState.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\Statuses\SceltaBriefingState.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\Statuses\TipoBigliettoState.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\Statuses\TipoClienteState.cs" />
+    <Compile Include="Wizards\EmissioneBiglietto\ScontoPersonalizzato\Statuses\TipoScontoState.cs" />
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{3924545A-F8E2-475A-B1A4-05175BC41E50}" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\ClientiView.resx">
+      <DependentUpon>ClientiView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TotaleCassa.resx">
+      <DependentUpon>TotaleCassa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\RiassuntoForm.en.resx">
+      <DependentUpon>RiassuntoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\RiassuntoForm.resx">
+      <DependentUpon>RiassuntoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\SceltaAbbonamentoForm.resx">
+      <DependentUpon>SceltaAbbonamentoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\SceltaBriefingForm.en.resx">
+      <DependentUpon>SceltaBriefingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\SceltaBriefingForm.resx">
+      <DependentUpon>SceltaBriefingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\ScontoPersonalizzato\SceltaScontoForm.resx">
+      <DependentUpon>SceltaScontoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\ScontoPersonalizzato\ScontoPersonalizzatoForm.resx">
+      <DependentUpon>ScontoPersonalizzatoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\TipoBigliettoForm.en.resx">
+      <DependentUpon>TipoBigliettoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\Wizard\BriefingSelectRow.resx">
+      <DependentUpon>BriefingSelectRow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\ClienteEscape.resx">
+      <DependentUpon>ClienteEscape.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\MainWindowPanel.resx">
+      <DependentUpon>MainWindowPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\StatisticPanel.resx">
+      <DependentUpon>StatisticPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\DescriptionValueRow.resx">
+      <DependentUpon>DescriptionValueRow.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="PercorsiAvventura.obproj" />
+    <None Include="Persistence\SQLServer\Clienti\Clienti.dbml.layout">
+      <DependentUpon>Clienti.dbml</DependentUpon>
+    </None>
+    <None Include="Persistence\SQLServer\Sconti\Sconti.dbml.layout">
+      <DependentUpon>Sconti.dbml</DependentUpon>
+    </None>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\Wizard\TipoClienteRow.resx">
+      <DependentUpon>TipoClienteRow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\TipoBigliettoForm.resx">
+      <DependentUpon>TipoBigliettoForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\EmissioneBiglietto\TipoClienteForm.resx">
+      <DependentUpon>TipoClienteForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TicketReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TicketReport.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Biglietti\Biglietti.csproj">
+      <Project>{E413CC22-4BE8-44FF-99D3-EA018E5D5BF1}</Project>
+      <Name>Biglietti</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Controls\Tools.csproj">
+      <Project>{DA5E5C54-4706-48DC-B5E3-E33FD3BE4EE3}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IndianaPark\IndianaPark.csproj">
+      <Project>{83CDD662-C7E9-470F-80A1-5DF69E832F25}</Project>
+      <Name>IndianaPark</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Persistency\Persistence.csproj">
+      <Project>{1B093DCE-C48D-421D-8665-033ED4C2F203}</Project>
+      <Name>Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginSystem\PluginSystem.csproj">
+      <Project>{F465C73F-7026-4862-908A-B98C0DF87700}</Project>
+      <Name>PluginSystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Persistence\SQLServer\Clienti\Clienti.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Clienti.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Persistence\SQLServer\Sconti\Sconti.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Sconti.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\IndianaPark.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LocalConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>rd "$(ProjectDir)obj" /S /Q</PostBuildEvent>
+    <PreBuildEvent>del "$(TargetPath).locked.*" /q 
+if exist "$(TargetPath)"  move "$(TargetPath)" "$(TargetPath).locked.%25random%25"
+exit /B 0</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CO_Config>Release</CO_Config>
+    <CO_ProjectFilePath>.\PercorsiAvventura.obproj</CO_ProjectFilePath>
+    <CO_FirstProject>True</CO_FirstProject>
+    <CO_LastProject>True</CO_LastProject>
+  </PropertyGroup>
+  <Import Project="C:\Program Files (x86)\Crypto Obfuscator For .NET 2010\CryptoObfuscator.targets" />
+</Project>

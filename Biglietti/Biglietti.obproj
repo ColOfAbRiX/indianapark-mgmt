@@ -1,0 +1,21 @@
+<Project Name="IndianaPark Scrambling" UseRelativePaths="True" PropogateObfuscationSettings="True" PropogateWatermarkSettings="True" PropogateOutputSettings="True" PropogateAuthenticodeSettings="True" CheckVersionsWhileResolvingAssemblies="True" ID="{c6733afe-00e7-46cb-ba73-c89acfe741b7}">
+  <SearchDirectories>
+    <SearchDirectory Path="." />
+  </SearchDirectories>
+  <OutputSettings OutputPath=".\..\IndianaPark\bin\Release\" EncryptDependancies="False" CompressDependancies="False" MainAssemblyPath="" RunAssemblyPath="" SNPath="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\sn.exe" SignToolPath="" LicensingDLLPath="" LicensingMergeAssemblyName="">
+    <AdditionalAssemblies />
+  </OutputSettings>
+  <ObfuscationSettings RenamingScheme="0" UseOverloadedFieldNames="False" UseOverloadedMethodNames="False" HonorObfuscationAttributes="True" ExcludeSerializedTypes="True" ProcessInlineStrings="True" ForceXAMLProcessingModeExclude="False" />
+  <ObfuscationRules>
+    <Rule Type="0" Target="1" Visibility="31" Pattern="PluginBiglietti" BaseClassPattern="" Enabled="True" ImmediateParentOnly="True" />
+    <Rule Type="0" Target="1" Visibility="31" Pattern="PluginPercorsiAvventura" BaseClassPattern="" Enabled="True" ImmediateParentOnly="True" />
+    <Rule Type="0" Target="1" Visibility="31" Pattern="PluginPowerFan" BaseClassPattern="" Enabled="True" ImmediateParentOnly="True" />
+    <Rule Type="0" Target="1" Visibility="31" Pattern="PluginPersistence" BaseClassPattern="" Enabled="True" ImmediateParentOnly="True" />
+  </ObfuscationRules>
+  <Assembly Load="true" Path=".\..\IndianaPark\obj\Release\Biglietti.dll" XapEntryName="" KeyFilePath="..\Resources\indianapark.snk" CertFilePath="" TimeStampURL="" Embed="True" PfxPassword="" PfxPasswordCert="">
+    <ObfuscationSettings EncryptStrings="True" SuppressReflector="True" ReduceMetaData="False" ObfuscationDisposition="1" FlowObfuscation="3" SuppressILDASM="True" SuppressReflection="False" CombineResources="True" EncryptResources="True" CompressResources="True" MarkAsSealed="False" EnableTamperDetection="True" EnableAntiDebugging="True" SymbolRenaming="True" HideExternalCalls="False" HideInternalCalls="True" GeneratePdbFile="False" ObfuscatePdbFileNames="True">
+      <Watermarks Watermark0="Copyright © 2011 - Colonna Fabrizio - &lt;colofabrix@gmail.com&gt;" Watermark1="" Watermark2="" Watermark3="" Watermark4="" Watermark5="" Watermark6="" Watermark7="" Watermark8="" Watermark9="" />
+    </ObfuscationSettings>
+  </Assembly>
+  <WarningSuppressions />
+</Project>

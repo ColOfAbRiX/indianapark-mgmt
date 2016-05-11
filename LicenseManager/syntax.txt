@@ -1,0 +1,40 @@
+﻿Sintassi: LicenseManager --lic|--cert
+  --lic:           Elaborazione delle licenze
+  --cert:          Elaborazione dei certificati
+
+
+Sintassi: LicenseManager --lic --reply|--request --srvcert-file=<srv_file>|--srvcert-name=<srv_cert>
+                         --clicert-file=<cli_file>|--clicert-name=<cli_cert>
+  --srvcert-file=<srv_file>: File contenente il certificato server
+  --srvcert-name=<srv_cert>: Il nome del certificato server nello storage
+  --clicert-file=<cli_file>: File contenente il certificato client
+  --clicert-name=<cli_cert>: Il nome del certificato client nello storage
+  --request:                 Genera una richiesta di emissione di una licenza
+  --reply:                   Genera una licenza rispondendo ad una richiesta
+
+
+Sintassi: LicenseManager --lic --reply [--assembly-checksum] [--check-duration] [--check-features]
+                         [--check-fingerprint] [--checksum-path=<path>] [--duration=<days>] [--license-file=<output>]
+                         [--request-file=<input>]
+  --assembly-checksum:    Abilita il controllo del checksum degli Assembly .NET
+  --assembly-duration:    Abilita il controllo della durata della licenza
+  --assembly-features:    Abilita il controllo delle features abilitate
+  --assembly-fingerprint: Abilita il controllo del fingerprint dell'hardware
+  --checksum-path=<path>: Il percorso in cui cercare gli assembly. Predefinito directory corrente
+  --duration=<days>:      La durata di validità della licenza in giorni. Predefinito 365 giorni
+  --license-file=<output>:Il file di output della licenza. Predefinito "license.lic"
+  --request-file=<input>: Il file di input della richiesta. Predefinito "request.lic"
+
+
+Sintassi: LicenseManager --lic --request [--name=<user_name]> [--features=<features>] [--request-file=<output>]
+  --name=<user_name>:     Il nome utente a cui rilasciare la licenza
+  --features=<features:   Le features richieste, separate da virgole e senza spazi
+  --request-file=<output>:Il file di output della richiesta. Predefinito "request.lic"
+
+
+Sintassi: LicenseManager --cert [--install|--create] [--server|--client] --file=<output>
+  --install:       Installa un certificato nello storage
+  --create:        Genera un certificato
+  --server:        Si sta lavorando su un ceritificato server
+  --client:        Si sta lavorando su un ceritificato client
+  --file=<output>: Il file di output

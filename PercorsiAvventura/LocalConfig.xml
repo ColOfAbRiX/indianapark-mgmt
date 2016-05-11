@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DatabaseType" owner="IndianaPark.Persistence.PluginPersistence">
+    <type><![CDATA[IndianaPark.Persistence.PersistenceFactory+SupportedDatabase, Persistence, Version=1.0.0.42253, Culture=neutral, PublicKeyToken=f4afb07b6e9cb6e2]]></type>
+    <value>
+      <![CDATA[<?xml version="1.0" encoding="utf-16"?><SupportedDatabase>SQLServer2005</SupportedDatabase>]]>
+    </value>
+    <description>Tipo di database in uso</description>
+    <attributes readonly="False" public="True" />
+  </parameter>
+  <parameter name="DatabaseHost" owner="IndianaPark.Persistence.PluginPersistence">
+    <type><![CDATA[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]></type>
+    <value>
+      <![CDATA[<?xml version="1.0" encoding="utf-16"?><string>LOCALHOST\SQLEXPRESS</string>]]>
+    </value>
+    <description>Host in cui cercare il DBMS</description>
+    <attributes readonly="False" public="True" />
+  </parameter>
+  <parameter name="DatabaseUsername" owner="IndianaPark.Persistence.PluginPersistence">
+    <type><![CDATA[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]></type>
+    <value>
+      <![CDATA[<?xml version="1.0" encoding="utf-16"?><string>indianapark</string>]]>
+    </value>
+    <description>Username per l'autenticazione sul database</description>
+    <attributes readonly="False" public="True" />
+  </parameter>
+  <parameter name="DatabasePassword" owner="IndianaPark.Persistence.PluginPersistence">
+    <type><![CDATA[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]></type>
+    <value>
+      <![CDATA[<?xml version="1.0" encoding="utf-16"?><string>indianapark</string>]]>
+    </value>
+    <description>Password di autenticazione sul database</description>
+    <attributes readonly="False" public="True" />
+  </parameter>
+  <parameter name="DatabaseSchema" owner="IndianaPark.Persistence.PluginPersistence">
+    <type><![CDATA[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]></type>
+    <value>
+      <![CDATA[<?xml version="1.0" encoding="utf-16"?><string>indianapark_dev</string>]]>
+    </value>
+    <description>Database da utilizzare</description>
+    <attributes readonly="False" public="True" />
+  </parameter>
+</parameters>

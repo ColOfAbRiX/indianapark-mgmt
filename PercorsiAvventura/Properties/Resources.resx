@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="NominativoRequired" xml:space="preserve">
+    <value>Devi inserire un testo per proseguire!</value>
+    <comment>NominativoRequired description</comment>
+  </data>
+  <data name="NominativoRequiredTitle" xml:space="preserve">
+    <value>Attenzione!</value>
+    <comment>NominativoRequiredTitle description</comment>
+  </data>
+  <data name="DeleteScontoText" xml:space="preserve">
+    <value>Stai per togliere tutti i biglietti scontati.
+Sei sicuro?</value>
+    <comment>DeleteScontoText description</comment>
+  </data>
+  <data name="DeleteScontoTitle" xml:space="preserve">
+    <value>Attenzione!</value>
+    <comment>DeleteScontoTitle description</comment>
+  </data>
+  <data name="TipoClientePartialPrice" xml:space="preserve">
+    <value>Totale {0,-10:C}</value>
+    <comment>TipoClientePartialPrice description</comment>
+  </data>
+  <data name="PostiInsufficientiText" xml:space="preserve">
+    <value>Questo briefing non ha posti sufficienti per le persone che stai aggiungendo.\nAggiungerli comunque?</value>
+    <comment>PostiInsufficientiText description</comment>
+  </data>
+  <data name="PostiInsufficientiTitle" xml:space="preserve">
+    <value>Posti rimasti insufficienti</value>
+    <comment>PostiInsufficientiTitle description</comment>
+  </data>
+  <data name="BriefingNonSelezionatoText" xml:space="preserve">
+    <value>Non hai selezionato nessun briefing in cui inserire il cliente</value>
+    <comment>BriefingNonSelezionatoText description</comment>
+  </data>
+  <data name="BriefingNonSelezionatoTitle" xml:space="preserve">
+    <value>Briefing non selezionato</value>
+    <comment>BriefingNonSelezionatoTitle description</comment>
+  </data>
+  <data name="NoBriefingAvailable" xml:space="preserve">
+    <value>Nessun briefing in
+orario per '{0}'</value>
+    <comment>NoBriefingAvailable description</comment>
+  </data>
+  <data name="ChooseBriefingFor" xml:space="preserve">
+    <value>Scegli briefing per
+'{0}'</value>
+    <comment>ChooseBriefingFor description</comment>
+  </data>
+  <data name="NoClienteAddedTitle" xml:space="preserve">
+    <value>Nessun cliente aggiunto</value>
+    <comment>NoClienteAddedTitle description</comment>
+  </data>
+  <data name="NoClienteAddedText" xml:space="preserve">
+    <value>Non ai aggiunto nessun cliente. Non posso creare biglietti per zero clienti!</value>
+    <comment>NoClienteAddedText description</comment>
+  </data>
+  <data name="RiassuntoBiglietti" xml:space="preserve">
+    <value>Biglietti '{0}'{1}: {3,0:C} x #{2} biglietti</value>
+    <comment>RiassuntoBiglietti description</comment>
+  </data>
+  <data name="RiassuntoBigliettiSconto" xml:space="preserve">
+    <value> scontato '{0}'</value>
+    <comment>RiassuntoBigliettiSconto description</comment>
+  </data>
+  <data name="RiassuntoBriefings" xml:space="preserve">
+    <value>Briefing per '{0}' alle ore: {1}</value>
+    <comment>RiassuntoBriefings description</comment>
+  </data>
+  <data name="AttrazioneDisplayedName" xml:space="preserve">
+    <value>Percorsi Avventura</value>
+    <comment>AttrazioneDisplayedName description</comment>
+  </data>
+  <data name="CustomDiscountButton" xml:space="preserve">
+    <value>Personalizzato...</value>
+    <comment>CustomDiscountButton description</comment>
+  </data>
+  <data name="NuovoAbbonamentoNominativoTitle" xml:space="preserve">
+    <value>Nuovo Abbonamento</value>
+    <comment>NuovoAbbonamentoNominativoTitle description</comment>
+  </data>
+  <data name="NuovoAbbonamentoNominativoText" xml:space="preserve">
+    <value>Scrivi il nominativo
+dell'abbonato</value>
+    <comment>NuovoAbbonamentoNominativoText description</comment>
+  </data>
+  <data name="NominativoEsistenteDescription" xml:space="preserve">
+    <value>Sono gia stati inseriti altri clienti sotto questo nominativo.
+Vuoi aggiungerne degli altri?</value>
+    <comment>NominativoEsistenteDescription description</comment>
+  </data>
+  <data name="NominativoEsistenteTitle" xml:space="preserve">
+    <value>Nominativo Esitente</value>
+    <comment>NominativoEsistenteTitle description</comment>
+  </data>
+  <data name="CustomDiscountName" xml:space="preserve">
+    <value>Personalizzato</value>
+    <comment>CustomDiscountName description</comment>
+  </data>
+  <data name="WrongNumericalTextDescription" xml:space="preserve">
+    <value>Il valore inserito non è un numero!
+\nNon inserire lettere e usa la virgola come separatore per i decimali</value>
+    <comment>WrongNumericalTextDescription description</comment>
+  </data>
+  <data name="WrongNumericalTextTitle" xml:space="preserve">
+    <value>Valore errato</value>
+    <comment>WrongNumericalTextTitle description</comment>
+  </data>
+  <data name="WrongCodeLengthText" xml:space="preserve">
+    <value>Il codice inserito non è nel formato corretto!
+Inserirlo nuovamente</value>
+    <comment>WrongCodeLengthText description</comment>
+  </data>
+  <data name="WrongCodeLengthTitle" xml:space="preserve">
+    <value>Attenzione</value>
+    <comment>WrongCodeLengthTitle description</comment>
+  </data>
+  <data name="WrongCodeFormatText" xml:space="preserve">
+    <value>Il codice inserito non è nel formato corretto!
+Inserirlo nuovamente</value>
+    <comment>WrongCodeFormatText description</comment>
+  </data>
+  <data name="WrongCodeFormatTitle" xml:space="preserve">
+    <value>Attenzione</value>
+    <comment>WrongCodeFormatTitle description</comment>
+  </data>
+  <data name="NominativoNotFoundText" xml:space="preserve">
+    <value>Non ho trovato nessun nominativo con il codice specificato</value>
+    <comment>NominativoNotFoundText description</comment>
+  </data>
+  <data name="NominativoNotFoundTitle" xml:space="preserve">
+    <value>Attenzione!</value>
+    <comment>NominativoNotFoundTitle description</comment>
+  </data>
+  <data name="ClienteNotFoundText" xml:space="preserve">
+    <value>Non ho trovato nessun cliente con il codice specificato</value>
+    <comment>ClienteNotFoundText description</comment>
+  </data>
+  <data name="ClienteNotFoundTitle" xml:space="preserve">
+    <value>Attenzione!</value>
+    <comment>ClienteNotFoundTitle description</comment>
+  </data>
+  <data name="ClienteExitText" xml:space="preserve">
+    <value>Il cliente è stato fatto uscire.</value>
+    <comment>ClienteExitText description</comment>
+  </data>
+  <data name="ClienteExitTitle" xml:space="preserve">
+    <value>Cliente uscito</value>
+    <comment>ClienteExitTitle description</comment>
+  </data>
+  <data name="ScontoValueTitle" xml:space="preserve">
+    <value>Valore dello sconto</value>
+    <comment>ScontoValueTitle description</comment>
+  </data>
+  <data name="ScontoValueText" xml:space="preserve">
+    <value>Valore dello sconto</value>
+    <comment>ScontoValueText description</comment>
+  </data>
+  <data name="NominativoInputTitle" xml:space="preserve">
+    <value>Nominativo</value>
+    <comment>NominativoInputTitle description</comment>
+  </data>
+  <data name="NominativoInputText" xml:space="preserve">
+    <value>Scrivi il nominativo</value>
+    <comment>NominativoInputText description</comment>
+  </data>
+  <data name="WrongNumericInputText" xml:space="preserve">
+    <value>Valore del numero fuori dall'intervallo consentito</value>
+    <comment>WrongNumericInputText description</comment>
+  </data>
+  <data name="WrongNumericInputTitle" xml:space="preserve">
+    <value>Numero non corretto</value>
+    <comment>WrongNumericInputTitle description</comment>
+  </data>
+  <data name="TotaleBigliettiUntilNow" xml:space="preserve">
+    <value>Totale biglietti {0}</value>
+    <comment>TotaleBigliettiUntilNow description</comment>
+  </data>
+  <data name="ClienteAlreadyExitedText" xml:space="preserve">
+    <value>Questo cliente è gia stato fatto uscire!</value>
+    <comment>ClienteAlreadyExitedText description</comment>
+  </data>
+  <data name="ClienteAlreadyExitedTitle" xml:space="preserve">
+    <value>Attenzione!</value>
+    <comment>ClienteAlreadyExitedTitle description</comment>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="IndianaPark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IndianaPark.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NominativoEsauritoText" xml:space="preserve">
+    <value>Tutti i clienti del nominativo "{0}" sono usciti</value>
+    <comment>NominativoEsauritoText description</comment>
+  </data>
+  <data name="NominativoEsauritoTitle" xml:space="preserve">
+    <value>Nominativo esaurito</value>
+    <comment>NominativoEsauritoTitle description</comment>
+  </data>
+  <data name="ModelNotSavedText" xml:space="preserve">
+    <value>Errore durante il salvataggio dei clienti sul database</value>
+    <comment>ModelNotSavedText description</comment>
+  </data>
+  <data name="ModelNotSavedTitle" xml:space="preserve">
+    <value>Errore Database</value>
+    <comment>ModelNotSavedTitle description</comment>
+  </data>
+  <data name="ModelNotLoadedText" xml:space="preserve">
+    <value>Errore durante il caricament dei clienti dal database</value>
+    <comment>ModelNotLoadedText description</comment>
+  </data>
+  <data name="ModelNotLoadedTitle" xml:space="preserve">
+    <value>Errore database</value>
+    <comment>ModelNotLoadedTitle description</comment>
+  </data>
+  <data name="check" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\check.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PrintTicketText" xml:space="preserve">
+    <value>Vuoi veramente stampare {0} biglietti?</value>
+    <comment>PrintTicketText description</comment>
+  </data>
+  <data name="PrintTicketTitle" xml:space="preserve">
+    <value>Attenzione!</value>
+    <comment>PrintTicketTitle description</comment>
+  </data>
+  <data name="ClienteEscapeText" xml:space="preserve">
+    <value>Vuoi veramente far uscire {0} clienti dai percorsi?</value>
+    <comment>ClienteEscapeText description</comment>
+  </data>
+  <data name="ClienteEscapeTitle" xml:space="preserve">
+    <value>Attenzione!</value>
+    <comment>ClienteEscapeTitle description</comment>
+  </data>
+  <data name="ClienteRemoveText" xml:space="preserve">
+    <value>Vuoi veramente eliminare {0} clienti dalla lista?</value>
+    <comment>ClienteRemoveText description</comment>
+  </data>
+  <data name="ClienteRemoveTitle" xml:space="preserve">
+    <value>Attenzione!</value>
+    <comment>ClienteRemoveTitle description</comment>
+  </data>
+  <data name="ScontiPlanChangedText" xml:space="preserve">
+    <value>Alla lista clienti sono stati applicati automaticamente altri sconti più convenienti di quelli scelti manualmente</value>
+    <comment>ScontiPlanChangedText description</comment>
+  </data>
+  <data name="ScontiPlanChangedTitle" xml:space="preserve">
+    <value>Cambio sconti</value>
+    <comment>ScontiPlanChangedTitle description</comment>
+  </data>
+</root>
